@@ -3,7 +3,7 @@ const express = require('express');
 //store the router function
 const router = express.Router();
 //require the model
-const Campsites = require('../models/Campsites')
+const Camp = require('../models/Campsites')
 
 //## REMEMBER
 // With multiple callback functions, it is important to provide next as an argument to the callback function
@@ -59,7 +59,7 @@ router.post('/', async (req, res) => {
         console.log('response happening?')
         res.json({
             status: 200,
-            data: campsite
+            data: newCampsite
         });
 
     } catch (err) {

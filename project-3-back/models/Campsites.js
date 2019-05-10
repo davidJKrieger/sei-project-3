@@ -3,13 +3,20 @@ const mongoose = require('mongoose')
 // instantiate a class using mongoose.Schema method -- S must be capitalized
 
 const campsiteSchema = new mongoose.Schema({
-    location: String,
-    notes: String,
-    coordinates: {
-        type: [Number],
-        required: true}
+location:String,
+lat: Number,
+lng: Number,
 })
 
 //let the mongoose model be used by other files in the app
 module.exports = mongoose.model('Campsites', campsiteSchema)
+
+
+// {
+// location: String,
+//     notes: String,
+//         coordinates: {
+//     type: [Number],
+//         required: true
+// }
 
