@@ -24,14 +24,18 @@ require('./db/db');
 //call the express method that makes bodyParser middleware ready to use -- parses data to json format only
 app.use(bodyParser.json());
 
+//set options for the cors method to a variable
 const corsOptions = {
     origin: 'http://localhost:3000', // when you deploy your react app, this is where you put the address,
     credentials: true, // allowing cookies to be sent with requests from the client (session cookie),
     optionsSuccessStatus: 200 // some legacy browsers IE11 choke on a 204, and options requests
 }
 
+//use the cors method and pass the options variable
+app.use(cors(corsOptions));
+
 const campsiteController = require('./controllers/campsiteController')
-app.use('/api/v1/movies',campsiteController)
+app.use('/api/v1/campsites',campsiteController)
 
 
 //call the express method that will "listen" to (or await requests from) the established environment (.env) or port 9000
