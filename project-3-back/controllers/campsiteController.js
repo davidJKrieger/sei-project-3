@@ -3,7 +3,7 @@ const express = require('express');
 //store the router function
 const router = express.Router();
 //require the model
-const Camp = require('../models/Campsites')
+const Camp = require('../models/campsites')
 
 //## REMEMBER
 // With multiple callback functions, it is important to provide next as an argument to the callback function
@@ -28,18 +28,29 @@ const Camp = require('../models/Campsites')
 // In a REST environment, CRUD often corresponds to the HTTP methods
 // POST, GET, PUT, and DELETE, respectively.
 
-//RESTFUL #1
+//--LINK--RESTFUL ROUTES
+//https://git.generalassemb.ly/WebDev-Connected-Classroom/intro_to_Rest/blob/master/README.md
+
+//** EXPLAINER ** this app will not use all seven routes.  update and edit are combined. same for new and post
+
+//--LINK--DB Query
+//https://mongoosejs.com/docs/queries.html
+
+
+//--LINK--EXPRESS BASIC ROUTING
+//https://expressjs.com/en/starter/basic-routing.html
+
+//READ MANY
 //Index route
 //test on postman  --  http://localhost:9000/api/v1/campsites
 
 router.get('/', async (req , res) => {
     try {
-        //
-        console.log(req.body + "req.body")
-        //const campsites = await Camp.find();
+        console.log(req.body)
+        const campsites = await Camp.find();
         res.json({
             status:200,
-           // data: campsites
+            data: campsites
         })
     } catch (err) {
         console.log(err);
@@ -47,14 +58,16 @@ router.get('/', async (req , res) => {
     }
 })
 
-//RESTFUL #2
+//CREATE
 //Post route
-//test on postman  --  http://localhost:9000/api/v1/campsites
+//test on postman  -- GET  http://localhost:9000/api/v1/campsites
 
 router.post('/', async (req, res) => {
 
     try {
+        //req.body is the parsed body of the form sent with the post request
         console.log(req.body, ' this is req.body');
+        //store a database query in the variable newCampsite
         const newCampsite = await Camp.create(req.body);
         console.log('response happening?')
         res.json({
@@ -68,14 +81,78 @@ router.post('/', async (req, res) => {
     }
 });
 
+//READ ONE
 //show route
 
-//edit route
+// ** EXPLAINER
+//URL and Query Params
+// -- LINK
+//https://git.generalassemb.ly/WebDev-Connected-Classroom/url_and_query_params/blob/master/README.md
 
-//update route
+//## REMEMBER
+//Make sure your routes are in the correct order
+//anything after a colon is treated as a variable whose value is placed in that spot on the URL
 
-//destroy route
 
+//test on postman  -- GET http://localhost:9000/api/v1/campsites/5cd5a8b9d9ff02d0046fdcae
+//1. Query the database -- use async/await here because I am awaiting response from DB
+//2. Pass req.params._id -- make variable after req.params matches variable passed to URL 
+//3. Store query result in variable
+// res is a param of the callback in the express method
+// .json() is a method that parses the response into json
+// https://expressjs.com/en/api.html#express.json
+//return the query variable as a value in the key value pair
+//When you use JSON, you’re basically writing the object out as an associative array.
+//Each entry is defined by a key-value pair: the keys define property and method names, 
+//the values define either properties or functions
+// respond with a status
+// https://restfulapi.net/http-status-codes/
+
+router.get('/:id', async (req, res) => {
+    try{
+        const showCampsite = await Camp.findById(req.params.id)
+        res.json({
+            status: 200,
+            data: showCampsite
+        })
+
+    }catch(err) {
+        console.log(err);
+        res.send(err);
+    }
+})
+
+//UPDATE
+router.put('/:id', async (req, res) => {
+    try{
+        const updatedCampsite = await Camp.findByIdAndUpdate(req.params.id)
+        res.json({
+            status: 200,
+            data: updatedCampsite
+        })
+
+    }catch(err){
+        console.log(err)
+        res.send(err)
+    }
+})
+
+
+
+//DESTROY
+router.delete('/:id', async (req, res) => {
+    try {
+        const deletedCampsite = await Camp.findByIdAndRemove(req.params.id)
+        res.json({
+            status: 200,
+            data: deletedCampsite
+        })
+
+    } catch (err) {
+        console.log(err)
+        res.send(err)
+    }
+})
 
 
 //send the router out so it can be imported in the server
