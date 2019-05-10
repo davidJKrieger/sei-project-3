@@ -30,6 +30,8 @@ const corsOptions = {
     optionsSuccessStatus: 200 // some legacy browsers IE11 choke on a 204, and options requests
 }
 
+const campsiteController = require('./controllers/campsiteController')
+app.use('/api/v1/movies',campsiteController)
 
 
 //call the express method that will "listen" to (or await requests from) the established environment (.env) or port 9000
