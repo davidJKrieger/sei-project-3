@@ -1,10 +1,14 @@
-import React from 'react'
+import React from 'react';
+import { Button, ButtonGroup } from 'reactstrap';
 
-function ButtonContainer() {
-    return(
-        <h1>button container</h1>
-    )
-
+export default class ButtonContainer extends React.Component {
+    render() {
+        return (
+            <ButtonGroup>
+                <Button>Add a Campsite</Button>
+                <Button>Update a Campsite</Button>
+                <Button>Remove a Campsite</Button>
+            </ButtonGroup>
+        );
+    }
 }
-
-export default ButtonContainer
