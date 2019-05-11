@@ -1,26 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+import SideBarContainer from './SideBar/SideBarContainer';
+import ButtonContainer from './SideBar/ButtonContainer/ButtonContainer'
+import AddButton from './SideBar/ButtonContainer/AddButton'
+import EditButton from './SideBar/ButtonContainer/EditButton'
+import Index from './SideBar/Index'
+import DeleteButton from './SideBar/ButtonContainer/DeleteButton';
+import InfoBar from './InfoBar/InfoBar'
+import MapContainer from './MapContainer/MyMapComponent';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <MapContainer />
+      <InfoBar />
+      <SideBarContainer />
+      <ButtonContainer />
+      <AddButton />
+      <EditButton />
+      <DeleteButton />
+      <Index />
     </div>
   );
 }
+
+//google credentials
+//key=API_KEY
+//AIzaSyAPGeqQzqBRr28APfVVJkoMdXIEEGHw4wg
 
 export default App;
