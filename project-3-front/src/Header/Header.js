@@ -2,7 +2,10 @@ import React from 'react'
 
 function Header () {
     return (
-        <h1>DISPERSED</h1>
+        <div>
+        <h1 id="title">DISPERSED</h1>
+        <p>Collect and store your favorite dispersed campsites</p>
+        </div>
     )
 
 }
