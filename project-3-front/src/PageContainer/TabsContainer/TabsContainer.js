@@ -1,8 +1,13 @@
 import React from 'react';
+
+//Starting with "/" returns to the root directory and starts there
+//Starting with "../" moves one directory backwards and starts there
+//Starting with "../../" moves two directories backwards and starts there(and so on...)
+//To move forward, just start with the first subdirectory and keep moving forward
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
-import ListItem from '../ListContainer/ListItem'
-import ListContainer from '../ListContainer/ListContainer'
+import ListItem from './ListContainer/ListItem'
+import ListContainer from './ListContainer/ListContainer'
 
 class TabsContainer extends React.Component {
     constructor(props) {
@@ -11,7 +16,8 @@ class TabsContainer extends React.Component {
         this.toggle = this.toggle.bind(this);
         this.state = {
             activeTab: '1',
-            campsites: ''
+            campsites: [],
+
         };
     }
     componentDidMount() {
@@ -43,6 +49,7 @@ class TabsContainer extends React.Component {
         }
     }
     getCampsites = async () => {
+
         try {
             const response = await fetch('http://localhost:9000/api/v1/campsites', {
                 credentials: 'include'
@@ -56,12 +63,42 @@ class TabsContainer extends React.Component {
             const responseParsed = await response.json();
             // after setState render is automatically called
 
-            this.setState({ campsites: responseParsed.data });
+            this.setState({ 
+                campsites: responseParsed.data 
+            });
 
         } catch (err) {
             console.log(err);
         }
     } 
+    updateCampsite = async (e) => {
+        e.preventDefault();
+        
+        try {
+        const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + this.state.campsiteToEdit.id, {
+            method: 'PUT',
+            body: JSON.stringify(this.state.campsiteToEdit),
+            headers: {
+            'Content-Type': 'application/json'
+            }
+        })
+
+        const parsedResponse = await editResponse.json();
+        const editedCampsites = this.state.campsite.map((campsite) => {
+            if(campsite._id === this.state.campsiteToEdit.id) {
+                campsite = parsedResponse.data;
+            }
+        return campsite
+        })
+
+        this.setState({
+            campsites: editedCampsites,
+            });
+        }catch(err) {
+        console.log(err)
+    }
+}
+
     toggle(tab) {
         if (this.state.activeTab !== tab) {
             this.setState({
@@ -132,8 +169,28 @@ class TabsContainer extends React.Component {
                         <Col sm="6">
                             <Card body>
                                 <CardTitle>Edit This Campsite</CardTitle>
-                                <CardText>Update/edit form goes here</CardText>
-                                <Button>Submit</Button>
+                                    <form onSubmit={this.updateCampsite.bind(null, this.state)}>
+                                        <label>
+                                            Campsite:
+                                            <input type="text" name="title" onChange={this.updatedCampsite} />
+                                        </label>
+                                        <br/>
+                                        <label>
+                                            Latitude Coordinate:
+                                            <input type="number" name="lat" onChange={this.updatedCampsite} />
+                                        </label>
+                                        <br/>
+                                        <label>
+                                            Longitude Coordinate:
+                                            <input type="number" name="lng" onChange={this.updatedCampsite} />
+                                        </label>
+                                        <br/>
+                                        <label>
+                                            Notes:
+                                            <input type="text" name="description" onChange={this.updatedCampsite} />
+                                        </label>
+                                        <Button handleSubmit={this.handleSubmit}>Submit</Button>
+                                    </form>
                             </Card>
                         </Col>
                             <Col sm="6">

@@ -1,18 +1,11 @@
 import React from 'react';
 import './App.css';
-
-import Header from './Header/Header'
-import MapContainer from './MapContainer/MyMapComponent';
-import TabsContainer from './Tabs/TabsContainer/TabsContainer'
-
-
+import PageContainer from './PageContainer/PageContainer'
 
 function App() {
   return (
     <div className="App">
-      <MapContainer />
-      <Header />
-      <TabsContainer />
+      <PageContainer />
     </div>
   );
 }
@@ -21,4 +14,4 @@ export default App;
 
 //google credentials
 //key=API_KEY
-//AIzaSyAPGeqQzqBRr28APfVVJkoMdXIEEGHw4wg
+//AIzaSyAPGeqQzqBRr28APfVVJkoMdXIEEGHw4wg./PageContainer/MapContainer/MyMapComponent
