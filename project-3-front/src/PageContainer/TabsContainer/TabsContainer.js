@@ -182,7 +182,7 @@ class TabsContainer extends React.Component {
                         </Col>
                     </TabPane>
                     <TabPane tabId="2">
-                        <row>
+                        <Row>
                         <Col sm="6">
                             <Card body>
                                 <CardTitle>Edit This Campsite</CardTitle>
@@ -212,13 +212,9 @@ class TabsContainer extends React.Component {
                         </Col>
                             <Col sm="6">
                                 <h4>Campsite Description</h4>
-                                <p>Lorem ipsum turpis lobortis tellus adipiscing consectetur sed a ut, sodales donec aliquam aptent pulvinar senectus porttitor platea, et interdum molestie fames venenatis mi tortor per.
-
-Nullam dolor nec duis cubilia risus rutrum convallis tortor quis, sem vestibulum adipiscing quisque tincidunt proin bibendum varius, tortor mollis donec ligula aliquam turpis rhoncus ut.
-
-Id auctor nibh cras lobortis sociosqu pharetra donec, habitant nullam pretium faucibus elementum ut ornare, etiam integer proin fames tincidunt arcu netus dictum aliquam fringilla morbi tincidunt malesuada sodales lacus velit.</p>
+                                <p> ornare, etiamdunt malesuada sodales lacus velit.</p>
                             </Col>
-                            </row>
+                            </Row>
 
                     </TabPane>
                 </TabContent>

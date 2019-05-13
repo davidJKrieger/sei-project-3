@@ -4,7 +4,7 @@ import React, {Component} from 'react'
 //Starting with "../" moves one directory backwards and starts there
 //Starting with "../../" moves two directories backwards and starts there(and so on...)
 //To move forward, just start with the first subdirectory and keep moving forward
-
+import Footer from './Footer/Footer'
 import TabsContainer from './TabsContainer/TabsContainer'
 import Header from './Header/Header'
 import MapContainer from './MapContainer/MyMapComponent'
@@ -56,10 +56,6 @@ class PageContainer extends Component {
                     'Content-Type': 'application/json'
                 }
             });
-            if (response.status !== 200) {
-                // for http errors, Fetch doesn't reject the promise on 404 or 500
-                throw Error(response.statusText);
-            }
             //The json() method of the Body mixin takes a Response stream and reads it to completion. 
             //It returns a promise that resolves with the result of parsing the body text as JSON.
             const parsedResponse = await addedCampsite.json();
