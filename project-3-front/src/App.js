@@ -3,7 +3,7 @@ import './App.css';
 
 import Header from './Header/Header'
 import MapContainer from './MapContainer/MyMapComponent';
-import TabsContainer from './tabs/TabsContainer'
+import TabsContainer from './Tabs/TabsContainer/TabsContainer'
 
 
 
