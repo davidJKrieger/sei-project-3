@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Akronim');
+
 .App {
   text-align: center;
 }
@@ -30,4 +32,13 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+h1 {
+  padding: 5px;
+  background-color: #282c34;
+  color: white;
+  font-size: 60px;
+  font-family: 'Akronim',
+  cursive;
 }
