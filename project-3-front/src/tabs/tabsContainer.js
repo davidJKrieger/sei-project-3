@@ -1,13 +1,8 @@
-import React, {Component} from 'react';
-import AddButton from './ButtonContainer/AddButton'
-import Delete from './ButtonContainer/DeleteButton'
-import Edit from './ButtonContainer/EditButton'
-import EditButton from './ButtonContainer/EditButton';
-
+import React from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
 
-class tabsContainer extends React.Component {
+class TabsContainer extends React.Component {
     constructor(props) {
         super(props);
 
@@ -27,7 +22,7 @@ class tabsContainer extends React.Component {
     render() {
         return (
             <div>
-                <Nav sideBar>
+                <Nav tabs>
                     <NavItem>
                         <NavLink
                             className={classnames({ active: this.state.activeTab === '1' })}
@@ -77,4 +72,4 @@ class tabsContainer extends React.Component {
     }
 }
 
-export default tabsContainer
+export default TabsContainer
