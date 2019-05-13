@@ -4,7 +4,24 @@ import React from 'react';
 //Starting with "../" moves one directory backwards and starts there
 //Starting with "../../" moves two directories backwards and starts there(and so on...)
 //To move forward, just start with the first subdirectory and keep moving forward
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
+import {    TabContent, 
+            TabPane, 
+            Nav, 
+            NavItem, 
+            NavLink, 
+            Card, 
+            Button, 
+            CardTitle, 
+            CardText, 
+            Row, 
+            Col,
+            Form, 
+            FormGroup, 
+            Label, 
+            Input, 
+            FormText  
+        } from 'reactstrap';
+
 import classnames from 'classnames';
 import ListItem from './ListContainer/ListItem'
 import ListContainer from './ListContainer/ListContainer'
@@ -96,9 +113,8 @@ class TabsContainer extends React.Component {
             });
         }catch(err) {
         console.log(err)
+        }   
     }
-}
-
     toggle(tab) {
         if (this.state.activeTab !== tab) {
             this.setState({
@@ -131,37 +147,38 @@ class TabsContainer extends React.Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                            <Col sm="6">
-                                <h4>List campsites here</h4>
-                                <ListContainer />
-                            </Col>
-                        <Col sm="6">
+
+                        <Col sm="12">
                             <Card body>
                                 <CardTitle>Add a Campsite to Your Campsites</CardTitle>
                                 <CardText></CardText>
-                                <form onSubmit={this.addCampsite.bind(null, this.state)}>
+                                <FormGroup onSubmit={this.addCampsite.bind(null, this.state)}>
                                     <label>
                                         Campsite:
                                         <input type="text" name="title" onChange={this.changedCampsite} />
                                     </label>
-                                    <br/>
-                                    <label>
-                                        Latitude Coordinate:
+                                <FormGroup className="mb-2 mr-sm-2 mb-sm-0"/>
+                                    <label className="mr-sm-2">
+                                        Latitude Coordinate:  
                                         <input type="number" name="lat" onChange={this.changedCampsite} />
                                     </label>
-                                    <br/>
-                                    <label>
-                                        Longitude Coordinate:
+                                <FormGroup className="mb-2 mr-sm-2 mb-sm-0"/>
+                                    <label className="mb-2 mr-sm-2 mb-sm-0">
+                                        Longitude Coordinate:  
                                         <input type="number" name="lng" onChange={this.changedCampsite} />
                                     </label>
-                                    <br/>
+                                <FormGroup />
                                     <label>
                                         Notes:
-                                        <input type="text" name="description" onChange={this.changedCampsite} />
+                                        <Input type="textarea" name="notes" onChange={this.changedCampsite} id="exampleText" />
                                     </label>
-                                    <Button handleSubmit={this.handleSubmit}>Submit</Button>
-                                </form>
+                                </FormGroup>
+                                <Button handleSubmit={this.handleSubmit}>Submit</Button>
                             </Card>
+                        </Col>
+                        <Col sm="12">
+                            <h4>List campsites here</h4>
+                            <ListContainer />
                         </Col>
                     </TabPane>
                     <TabPane tabId="2">
