@@ -43,6 +43,9 @@ class TabsContainer extends React.Component {
     handleChange = (e) => {
         this.setState({ [e.currentTarget.name]: e.currentTarget.value });
     }
+    handleSubmit = (e) => {
+        
+    }
 
     addCampsite = async (e) => {
         e.preventDefault();
@@ -134,7 +137,7 @@ class TabsContainer extends React.Component {
                             onClick={() => { this.toggle('1'); }}
                         >
                             My Campsites
-            </NavLink>
+                        </NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink
@@ -142,80 +145,79 @@ class TabsContainer extends React.Component {
                             onClick={() => { this.toggle('2'); }}
                         >
                             Selected Campsite
-            </NavLink>
+                        </NavLink>
                     </NavItem>
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-
-                        <Col sm="12">
-                            <Card body>
-                                <CardTitle>Add a Campsite to Your Campsites</CardTitle>
-                                <CardText></CardText>
-                                <FormGroup onSubmit={this.addCampsite.bind(null, this.state)}>
-                                    <label>
-                                        Campsite:
-                                        <input type="text" name="title" onChange={this.changedCampsite} />
-                                    </label>
-                                <FormGroup className="mb-2 mr-sm-2 mb-sm-0"/>
-                                    <label className="mr-sm-2">
-                                        Latitude Coordinate:  
-                                        <input type="number" name="lat" onChange={this.changedCampsite} />
-                                    </label>
-                                <FormGroup className="mb-2 mr-sm-2 mb-sm-0"/>
-                                    <label className="mb-2 mr-sm-2 mb-sm-0">
-                                        Longitude Coordinate:  
-                                        <input type="number" name="lng" onChange={this.changedCampsite} />
-                                    </label>
-                                <FormGroup />
-                                    <label>
-                                        Notes:
-                                        <Input type="textarea" name="notes" onChange={this.changedCampsite} id="exampleText" />
-                                    </label>
-                                </FormGroup>
-                                <Button handleSubmit={this.handleSubmit}>Submit</Button>
-                            </Card>
-                        </Col>
-                        <Col sm="12">
-                            <h4>List campsites here</h4>
-                            <ListContainer />
-                        </Col>
-                    </TabPane>
-                    <TabPane tabId="2">
                         <Row>
-                        <Col sm="6">
-                            <Card body>
-                                <CardTitle>Edit This Campsite</CardTitle>
-                                    <form onSubmit={this.updateCampsite.bind(null, this.state)}>
+                            <Col sm="6">
+                                <Card body>
+                                    <CardTitle>Add a Campsite</CardTitle>
+                                    <form onSubmit={this.addCampsite.bind(null, this.state)}>
                                         <label>
                                             Campsite:
-                                            <input type="text" name="title" onChange={this.updatedCampsite} />
+                                                <input type="text" name="title" onChange={this.addedCampsite} />
                                         </label>
-                                        <br/>
+                                        <br />
                                         <label>
                                             Latitude Coordinate:
-                                            <input type="number" name="lat" onChange={this.updatedCampsite} />
+                                                <input type="number" name="lat" onChange={this.addedCampsite} />
                                         </label>
-                                        <br/>
+                                        <br />
                                         <label>
                                             Longitude Coordinate:
-                                            <input type="number" name="lng" onChange={this.updatedCampsite} />
+                                                <input type="number" name="lng" onChange={this.addedCampsite} />
                                         </label>
-                                        <br/>
+                                        <br />
                                         <label>
                                             Notes:
-                                            <input type="text" name="description" onChange={this.updatedCampsite} />
+                                                <input type="text" name="description" onChange={this.addedCampsite} />
                                         </label>
                                         <Button handleSubmit={this.handleSubmit}>Submit</Button>
                                     </form>
-                            </Card>
-                        </Col>
+                                </Card>
+                            </Col>
+                            <Col sm="6">
+                                <h4>List campsites here</h4>
+                                <ListContainer campsites={this.props.campsites} />
+                            </Col>
+                        </Row>
+                    </TabPane>
+                    <TabPane tabId="2">
+                        <Row>
+                            <Col sm="6">
+                                <Card body>
+                                    <CardTitle>Edit This Campsite</CardTitle>
+                                        <form onSubmit={this.updateCampsite.bind(null, this.state)}>
+                                            <label>
+                                                Campsite:
+                                                <input type="text" name="title" onChange={this.handleChange} />
+                                            </label>
+                                            <br/>
+                                            <label>
+                                                Latitude Coordinate:
+                                                <input type="number" name="lat" onChange={this.handleChange} />
+                                            </label>
+                                            <br/>
+                                            <label>
+                                                Longitude Coordinate:
+                                                <input type="number" name="lng" onChange={this.handleChange} />
+                                            </label>
+                                            <br/>
+                                            <label>
+                                                Notes:
+                                                <input type="text" name="description" onChange={this.handleChange} />
+                                            </label>
+                                            <Button handleSubmit={this.handleSubmit}>Submit</Button>
+                                        </form>
+                                </Card>
+                            </Col>
                             <Col sm="6">
                                 <h4>Campsite Description</h4>
                                 <p> ornare, etiamdunt malesuada sodales lacus velit.</p>
                             </Col>
-                            </Row>
-
+                        </Row>
                     </TabPane>
                 </TabContent>
             </div>

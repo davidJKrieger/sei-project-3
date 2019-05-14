@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 
 //Starting with "/" returns to the root directory and starts there
 //Starting with "../" moves one directory backwards and starts there
@@ -7,25 +7,14 @@ import React, {Component} from 'react'
 import ListItem from './ListItem'
 
 
-class ListContainer extends Component {
-   constructor(){
-      super();
-      this.state = {
-         campsite: '',
-         id:'',
-      }
-   }
-   render(){
-      const listItems = this.state.list.map((campsite, index) => {
-         return <ListItem key={index} campsite={campsite}></ListItem>
+const ListContainer = (props) => {
 
+  
+      const campsite = props.campsites.map((campsite, index) => {
+         return <ListItem key={index} campsite={ campsite }></ListItem>
       })
-      return (
-         <div>Campsite</div>
-      )
-   }
-
+      return campsite
 }
 
 
-export default ListItem
+export default ListContainer

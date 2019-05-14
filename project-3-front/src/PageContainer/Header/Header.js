@@ -5,7 +5,7 @@ import React from 'react'
 function Header () {
     return (
         <header>
-        <h1 id="title">Dispersed</h1>
+        <h1 id="title">Dispersed Campsites</h1>
         </header>
     )
 

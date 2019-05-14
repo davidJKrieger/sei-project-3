@@ -72,8 +72,9 @@ class PageContainer extends Component {
         try {
             //make an api call to get all of the campsites
             const response = await fetch('http://localhost:9000/api/v1/campsites', {
-
+                
             });
+            console.log(response)
             //respond with error if call fails
             if (response.status !== 200) {
                 // for http errors, Fetch doesn't reject the promise on 404 or 500
@@ -81,7 +82,7 @@ class PageContainer extends Component {
             }
             //the response will comeback a regular json. it must be parsed into a js obj
             const responseParsed = await response.json();
-        
+            
             this.setState({
                 //set the value of the state campsite key as parsedresponse.data
                 //dont forget .data -- this is what the object comming back looks like:
@@ -114,7 +115,7 @@ class PageContainer extends Component {
             //parse string into object
             const parsedResponse = await editResponse.json();
             //use map method to check each campsite
-            const editedCampsites = this.state.campsite.map((campsite) => {
+            const editedCampsites = this.state.campsites.map((campsite) => {
                 if (campsite.id === this.state.campsiteToEdit.id) {
                     campsite = parsedResponse.data;
                 }
@@ -136,7 +137,11 @@ class PageContainer extends Component {
             <MapContainer />
             <Header />
 
-            <TabsContainer />
+            <TabsContainer 
+                addedCampsite={ this.state.addCampsite }
+                editCampsite={ this.state.updateCampsite }
+                campsites={ this.state.campsites }
+            />
             </div>
 
         )
