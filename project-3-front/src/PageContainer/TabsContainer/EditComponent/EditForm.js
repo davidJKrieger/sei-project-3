@@ -1,58 +1,68 @@
 
-import React { Component } from 'react'
+import React from 'react'
+import {
+    TabContent,
+    TabPane,
+    Nav,
+    NavItem,
+    NavLink,
+    Card,
+    Button,
+    CardTitle,
+    CardText,
+    Row,
+    Col,
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    FormText
+} from 'reactstrap';
 
-class AddForm extends Component {
-    constructor() {
-        super()
-        this.state = {
-            title = '',
-            lat = null,
-            long = null,
-            notes = ''
-        }
-    }
-    handleChange = (e) => {
-        this.setState({
-            [e.currentTarget.name]: e.currentTarget.value,
-        })
-    }
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.editCampsite();
-    }
-    //comming from props
-    // handleEditCampsite = () => {
-    // }
+import classnames from 'classnames';
 
-    render() {
-        return(
-            <Card body>
-                <CardTitle>Edit This Campsite</CardTitle>
-                <form onSubmit={ this.handleSubmit }>
-                    <input type="text" name="title" onChange={this.handleChange} />
-                    <br />
-                    <input 
+const EditForm = (props) => {
+  
+    return(
+        <Card body>
+            <CardTitle>Edit This Campsite</CardTitle>
+            <Form onSubmit={ props.handleSubmit }>
+                <FormGroup>
+                    <input
+                        type="text"
+                        name="name"
+                        onChange={props.handleChange}
+                        placeholder='Name your Campsite'
+                        value = { props.campsite.name }
+                    />
+                    <Row>
+                    <Input 
                         type = "number"
                         name = "lat" 
-                        onChange = { this.handleChange }
-                        placeholder = { this.props.lat }
-                        value = { this.state.lat }
+                        onChange = { props.handleChange }
+                        placeholder = { props.lat }
+                        value = { props.campsite.lat }
                     />
-                    <input 
+                    <Input 
                         type = "number"
                         name = "lng" 
-                        onChange = { this.handleChange }
-                        value = { this.state.lng }
+                        onChange = { props.handleChange }
+                        value = { props.campsite.lng }
                     />
-                    <br />
-                    <input 
+                    </Row>
+                    <Row>
+                    <Input 
                         type="text" 
                         name="notes" 
-                        onChange = { this.handleChange }
+                        onChange = { props.handleChange }
                     />
-                    <Button handleSubmit={this.handleSubmit}>Submit</Button>
-                </form>
-            </Card>
-        )
-    }
+                    </Row>
+                    <input type="submit" value="Submit" />
+                </FormGroup>
+            </Form>
+        </Card>
+    )
+    
 }
+
+export default EditForm

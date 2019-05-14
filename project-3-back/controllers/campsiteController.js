@@ -47,7 +47,7 @@ const Camp = require('../models/campsites')
 router.get('/', async (req , res) => {
     try {
         console.log(req.body)
-        const campsites = await Camp.find();
+        const campsites = await Camp.find({});
         res.json({
             status:200,
             data: campsites

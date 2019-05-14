@@ -7,11 +7,11 @@ import React from 'react'
 import ListItem from './ListItem'
 
 
-const ListContainer = (props) => {
+const DescItem = (props, e) => {
 
   
       const campsite = props.campsites.map((campsite, index) => {
-         return <ListItem key={index} campsite={ campsite }></ListItem>
+         return <id={index} campsite={ campsite }></ListItem>
       })
       return campsite
 }

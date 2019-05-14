@@ -1,14 +1,34 @@
 
-import React {Component} from 'react'
+import React, { Component } from 'react'
+import {
+    TabContent,
+    TabPane,
+    Nav,
+    NavItem,
+    NavLink,
+    Card,
+    Button,
+    CardTitle,
+    CardText,
+    Row,
+    Col,
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    FormText
+} from 'reactstrap';
+
+import classnames from 'classnames';
 
 class AddForm extends Component {
     constructor(){
         super()
         this.state = {
-            title = '',
-            lat = null,
-            long = null,
-            notes = ''
+            name:'',
+            lat: null,
+            lng: null,
+            notes: ''
         }
     }
     handleChange = (e) => {
@@ -16,54 +36,52 @@ class AddForm extends Component {
             [e.currentTarget.name]: e.currentTarget.value,
         })
     }
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.addCampsite();
-    }
-    //comming from props
-    // handleNewCampsite = () => {
-    // }
-
+ 
     render(){
         return(
             <Card body>
                 <CardTitle>Add a Campsite</CardTitle>
-                <form onSubmit = { this.handleSubmit }>
-                    <input
-                        type="text"
-                        name="name"
-                        onChange = { this.handleNewCampsite } 
-                        placeholder = 'Name your Campsite'
-                        value = { this.state.name }
-                    />
-                    <br />
-                    <input
-                        type = "number"
-                        name = "lat"
-                        onChange = { this.handleChange }
-                        placeholder = 'Enter latitude coordinate'
-                        value = { this.state.lat }
-                    />
-                    <input
-                        type = "number"
-                        name = "lng"
-                        onChange = { this.handleChange }
-                        placeholder = 'Enter longitude coordinates'
-                        value = { this.state.lng }
-                    />
-                    <br />
-                    <input
-                        type = "text"
-                        name = "description"
-                        onChange = {this.handleChange}
-                        placeholder = 'Describe the site and leave some notes here'
-                        value = { this.state.notes }
-                    />
-                    <Button handleSubmit = { this.handleSubmit }>Submit</Button>
-                </form>
+                <Form onSubmit = { this.handleSubmit }>
+                    <FormGroup>
+                        <Input
+                            type="text"
+                            name="name"
+                            onChange = { this.handleChange } 
+                            placeholder = 'Name your Campsite'
+                    
+                        />
+                    <Row>
+                        <Input
+                            type = "number"
+                            name = "lat"
+                            onChange = { this.handleChange }
+                            placeholder = 'Enter latitude coordinate'
+                          
+                        />
+                        <Input
+                            type = "number"
+                            name = "lng"
+                            onChange = { this.handleChange }
+                            placeholder = 'Enter longitude coordinates'
+                            
+                        />
+                    </Row>
+                    <Row>
+                        <Input
+                            type = "text"
+                            name = "notes"
+                            onChange = {this.handleChange}
+                            placeholder = 'Describe the site and leave some notes here'
+                          
+                        />
+                    </Row>  
+                    </FormGroup>
+                    <input type="submit" value="Submit" />
+                </Form>
             </Card>
         )
     }   
 }
 
 export default AddForm
+
