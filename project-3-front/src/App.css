@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Akronim');
+@import url('https://fonts.googleapis.com/css?family=Stylish');
 
 .App {
   text-align: center;
@@ -33,12 +33,15 @@
     transform: rotate(360deg);
   }
 }
+/* 
+header {
+  height: 125px;
+  background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmIHyBdp8dWdEhLcEQkKltHfBikEDqIIABgSM4p4yXKHdPuJ-_")
+} */
 
-h1 {
+#title {
+  margin-top: 10px;
   padding: 5px;
-  background-color: #282c34;
-  color: white;
-  font-size: 60px;
-  font-family: 'Akronim',
-  cursive;
+  color: black;
+  font-size: 50px;
 }

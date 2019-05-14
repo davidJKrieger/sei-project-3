@@ -23,8 +23,9 @@ import {    TabContent,
         } from 'reactstrap';
 
 import classnames from 'classnames';
-import ListItem from './ListContainer/ListItem'
-import ListContainer from './ListContainer/ListContainer'
+import ListItem from './ListComponent/ListItem'
+import AddForm from './AddComponent/AddForm'
+import EditForm from './EditComponent/EditForm'
 
 class TabsContainer extends React.Component {
     constructor(props) {
@@ -34,17 +35,59 @@ class TabsContainer extends React.Component {
         this.state = {
             activeTab: '1',
             campsites: [],
+            campsiteToEdit: {
+                id: null,
+                name: '',
+                notes: '',
+                lat: 0,
+                lng: 0,
+            },
 
         };
     }
     componentDidMount() {
-        this.getCampsites()
+       this.getCampsites()
     }
     handleChange = (e) => {
         this.setState({ [e.currentTarget.name]: e.currentTarget.value });
     }
+    getCampsites = async () => {
 
-    addCampsite = async (e) => {
+        try {
+            //make an api call to get all of the campsites
+            const response = await fetch('http://localhost:9000/api/v1/campsites', {
+
+            });
+            console.log(response)
+            //respond with error if call fails
+            if (response.status !== 200) {
+                // for http errors, Fetch doesn't reject the promise on 404 or 500
+                throw Error(response.statusText);
+            }
+            //the response will comeback a regular json. it must be parsed into a js obj
+            const responseParsed = await response.json();
+
+            this.setState({
+                //set the value of the state campsite key as parsedresponse.data
+                //dont forget .data -- this is what the object comming back looks like:
+                //          //res.json({
+                //status: 200,
+                //data: campsite
+                //});
+                campsites: responseParsed.data
+            });
+            // remember that render is automatically called after setState
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    handleSubmit = (e) => {
+        e.preventdefault()
+        this.handleNewCampsite();
+    }
+
+    handleNewCampsite = async (e) => {
         e.preventDefault();
 
         try {
@@ -65,13 +108,13 @@ class TabsContainer extends React.Component {
             console.log(err)
         }
     }
-    getCampsites = async () => {
 
+    getCampsites = async () => {
         try {
             const response = await fetch('http://localhost:9000/api/v1/campsites', {
                 credentials: 'include'
             });
-
+            console.log(response)
             if (response.status !== 200) {
                 // for http errors, Fetch doesn't reject the promise on 404 or 500
                 throw Error(response.statusText);
@@ -79,11 +122,12 @@ class TabsContainer extends React.Component {
 
             const responseParsed = await response.json();
             // after setState render is automatically called
-
-            this.setState({ 
-                campsites: responseParsed.data 
-            });
-
+            if(response != null) {
+                this.setState({
+                    campsites: responseParsed.data
+                });
+            console.log(responseParsed.data)
+            }
         } catch (err) {
             console.log(err);
         }
@@ -92,7 +136,7 @@ class TabsContainer extends React.Component {
         e.preventDefault();
         
         try {
-        const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + this.state.campsiteToEdit.id, {
+        const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + this.state.campsiteToEdit._id, {
             method: 'PUT',
             body: JSON.stringify(this.state.campsiteToEdit),
             headers: {
@@ -101,15 +145,15 @@ class TabsContainer extends React.Component {
         })
 
         const parsedResponse = await editResponse.json();
-        const editedCampsites = this.state.campsite.map((campsite) => {
-            if(campsite._id === this.state.campsiteToEdit.id) {
+        const foundCampsite = this.state.campsites.map((campsite) => {
+            if(campsite._id === this.state.campsiteToEdit._id) {
                 campsite = parsedResponse.data;
             }
         return campsite
         })
 
         this.setState({
-            campsites: editedCampsites,
+            campsiteToEdit: foundCampsite,
             });
         }catch(err) {
         console.log(err)
@@ -122,7 +166,6 @@ class TabsContainer extends React.Component {
             });
         }
     }
-    ///hardcoded variables/props as placeholders
     render() {
 
         return (
@@ -134,7 +177,7 @@ class TabsContainer extends React.Component {
                             onClick={() => { this.toggle('1'); }}
                         >
                             My Campsites
-            </NavLink>
+                        </NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink
@@ -142,84 +185,39 @@ class TabsContainer extends React.Component {
                             onClick={() => { this.toggle('2'); }}
                         >
                             Selected Campsite
-            </NavLink>
+                        </NavLink>
                     </NavItem>
                 </Nav>
-                <TabContent activeTab={this.state.activeTab}>
+                <TabContent activeTab={ this.state.activeTab }>
                     <TabPane tabId="1">
-
-                        <Col sm="12">
-                            <Card body>
-                                <CardTitle>Add a Campsite to Your Campsites</CardTitle>
-                                <CardText></CardText>
-                                <FormGroup onSubmit={this.addCampsite.bind(null, this.state)}>
-                                    <label>
-                                        Campsite:
-                                        <input type="text" name="title" onChange={this.changedCampsite} />
-                                    </label>
-                                <FormGroup className="mb-2 mr-sm-2 mb-sm-0"/>
-                                    <label className="mr-sm-2">
-                                        Latitude Coordinate:  
-                                        <input type="number" name="lat" onChange={this.changedCampsite} />
-                                    </label>
-                                <FormGroup className="mb-2 mr-sm-2 mb-sm-0"/>
-                                    <label className="mb-2 mr-sm-2 mb-sm-0">
-                                        Longitude Coordinate:  
-                                        <input type="number" name="lng" onChange={this.changedCampsite} />
-                                    </label>
-                                <FormGroup />
-                                    <label>
-                                        Notes:
-                                        <Input type="textarea" name="notes" onChange={this.changedCampsite} id="exampleText" />
-                                    </label>
-                                </FormGroup>
-                                <Button handleSubmit={this.handleSubmit}>Submit</Button>
-                            </Card>
-                        </Col>
-                        <Col sm="12">
-                            <h4>List campsites here</h4>
-                            <ListContainer />
-                        </Col>
+                        <Row>
+                            <Col sm="6">
+        <AddForm 
+            campsite = { this.state.campsites }
+            handleNewCampsite = { this.handleNewCampsite }
+        />
+            
+                            </Col>
+                            <Col sm="6">
+                                <h4>List campsites here</h4>
+        <ListItem campsites = { this.state.campsites } />
+                            </Col>
+                        </Row>
                     </TabPane>
                     <TabPane tabId="2">
-                        <row>
-                        <Col sm="6">
-                            <Card body>
-                                <CardTitle>Edit This Campsite</CardTitle>
-                                    <form onSubmit={this.updateCampsite.bind(null, this.state)}>
-                                        <label>
-                                            Campsite:
-                                            <input type="text" name="title" onChange={this.updatedCampsite} />
-                                        </label>
-                                        <br/>
-                                        <label>
-                                            Latitude Coordinate:
-                                            <input type="number" name="lat" onChange={this.updatedCampsite} />
-                                        </label>
-                                        <br/>
-                                        <label>
-                                            Longitude Coordinate:
-                                            <input type="number" name="lng" onChange={this.updatedCampsite} />
-                                        </label>
-                                        <br/>
-                                        <label>
-                                            Notes:
-                                            <input type="text" name="description" onChange={this.updatedCampsite} />
-                                        </label>
-                                        <Button handleSubmit={this.handleSubmit}>Submit</Button>
-                                    </form>
-                            </Card>
-                        </Col>
+                        <Row>
                             <Col sm="6">
-                                <h4>Campsite Description</h4>
-                                <p>Lorem ipsum turpis lobortis tellus adipiscing consectetur sed a ut, sodales donec aliquam aptent pulvinar senectus porttitor platea, et interdum molestie fames venenatis mi tortor per.
-
-Nullam dolor nec duis cubilia risus rutrum convallis tortor quis, sem vestibulum adipiscing quisque tincidunt proin bibendum varius, tortor mollis donec ligula aliquam turpis rhoncus ut.
-
-Id auctor nibh cras lobortis sociosqu pharetra donec, habitant nullam pretium faucibus elementum ut ornare, etiam integer proin fames tincidunt arcu netus dictum aliquam fringilla morbi tincidunt malesuada sodales lacus velit.</p>
+        <EditForm 
+            campsite = { this.state.campsiteToEdit }
+            handleChange = { this.handleChange }
+            updateCampsite = { this.updateCampsite }
+        />
                             </Col>
-                            </row>
-
+                            <Col sm="6">
+                                <h4>Campsite Notes</h4>
+                                <p> ornare, etiamdunt malesuada sodales lacus velit.</p>
+                            </Col>
+                        </Row>
                     </TabPane>
                 </TabContent>
             </div>
