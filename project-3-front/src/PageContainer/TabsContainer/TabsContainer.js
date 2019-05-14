@@ -23,8 +23,8 @@ import {    TabContent,
         } from 'reactstrap';
 
 import classnames from 'classnames';
-import ListItem from './ListContainer/ListItem'
-import ListContainer from './ListContainer/ListContainer'
+import ListItem from './ListComponent/ListItem'
+import ListContainer from './ListComponent/ListContainer'
 
 class TabsContainer extends React.Component {
     constructor(props) {
