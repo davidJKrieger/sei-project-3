@@ -22,7 +22,8 @@ import classnames from 'classnames';
 import ListItem from './ListComponent/ListItem'
 import AddForm from './AddComponent/AddForm'
 import EditForm from './EditComponent/EditForm'
-import MarkerComponent from './MapContainer/Marker';
+import MapContainer from './MapContainer/MapContainer';
+import MyMapComponent from './MapContainer/MyMapComponent';
 
 class PageContainer extends Component {
     constructor() {
@@ -118,11 +119,11 @@ class PageContainer extends Component {
 
     //UPDATE
     //pass as props to edit form
-    updateCampsite = async () => {
+    updateCampsite = async (data) => {
         try {
         const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + this.state.campsiteToEdit._id, {
             method: 'PUT',
-            body: JSON.stringify(this.state.campsiteToEdit),
+            body: JSON.stringify(data),
             headers: {
             'Content-Type': 'application/json'
             }
@@ -161,7 +162,7 @@ class PageContainer extends Component {
         return (
             <div>
                 <Header />
-<MarkerComponent
+<MapContainer
 highlightListItem = {this.highlightListItem} 
 selectedCampsite = { this.state.selectedCampsite }
 campsites = { this.state.campsites }
