@@ -1,22 +1,14 @@
 
 import React, { Component } from 'react'
 import {
-    TabContent,
-    TabPane,
-    Nav,
-    NavItem,
-    NavLink,
     Card,
     Button,
     CardTitle,
-    CardText,
     Row,
-    Col,
     Form,
     FormGroup,
-    Label,
     Input,
-    FormText
+
 } from 'reactstrap';
 
 import classnames from 'classnames';
@@ -31,37 +23,16 @@ class AddForm extends Component {
             notes: ''
         }
     }
-
     handleSubmit = (e) => {
-        e.preventdefault()
-        this.handleNewCampsite();
+        e.preventDefault()
+        this.props.handleNewCampsite(this.state)
     }
+
     handleChange = (e) => {
         this.setState({
             [e.currentTarget.name]: e.currentTarget.value,
         })
     }
-    handleNewCampsite = async (e) => {
-
-        try {
-            const addedCampsite = await fetch('http://localhost:9000/api/v1/campsites', {
-                method: 'POST',
-                credentials: 'include',
-                body: JSON.stringify(addedCampsite),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            const parsedResponse = await addedCampsite.json();
-            console.log(parsedResponse)
-            this.setState({ campsites: [...this.state.campsites, parsedResponse.data] })
-
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
  
     render(){
         return(
@@ -107,7 +78,6 @@ class AddForm extends Component {
                         <input type="submit" value="Submit" />
                         </Row>
                     </FormGroup>
-                
                 </Form>
             </Card>
         )

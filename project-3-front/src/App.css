@@ -45,3 +45,6 @@ header {
   color: black;
   font-size: 50px;
 }
+#selectedTab {
+  background-color: aquamarine
+}

@@ -9,23 +9,14 @@ import {    TabContent,
             Nav, 
             NavItem, 
             NavLink, 
-            Card, 
-            Button, 
-            CardTitle, 
-            CardText, 
             Row, 
             Col,
-            Form, 
-            FormGroup, 
-            Label, 
-            Input, 
-            FormText  
         } from 'reactstrap';
-import Footer from './Footer/Footer'
+
 
 import Header from './Header/Header'
-import MapContainer from './MapContainer/MyMapComponent'
-import MyFancyComponent from './MapContainer/Marker';
+
+
 
 import classnames from 'classnames';
 import ListItem from './ListComponent/ListItem'
@@ -51,26 +42,33 @@ class PageContainer extends Component {
                 name: '',
                 lat: 0,
                 lng:0,
-            }
+            },
 
         };
     }
+    //when the page loads, get all the campsites from the db
     componentDidMount() {
        this.getCampsites()
     }
+    //perform yet to be written function on selected campsite 
+    //it should set the edit form state to selected campsite 
+    //and or highlight it on index list
     highlightListItem = () => {
         console.log('marker clicked')
 
     }
+    //simple function that gets passed to forms to show data as it is entered
     handleChange = (e) => {
         this.setState({ [e.currentTarget.name]: e.currentTarget.value });
     }
+    //query the express api 
+    //return all sites
+    //store as an array of objects in state
+    //pass as props -- campsites
     getCampsites = async () => {
-
         try {
             //make an api call to get all of the campsites
             const response = await fetch('http://localhost:9000/api/v1/campsites', {
-
             });
             console.log(response)
             //respond with error if call fails
@@ -82,46 +80,45 @@ class PageContainer extends Component {
             const responseParsed = await response.json();
 
             this.setState({
-                //set the value of the state campsite key as parsedresponse.data
-                //dont forget .data -- this is what the object comming back looks like:
-                //          //res.json({
-                //status: 200,
-                //data: campsite
-                //});
+                status: 200,
                 campsites: responseParsed.data
             });
             // remember that render is automatically called after setState
         } catch (err) {
             console.log(err);
         }
+        console.log(this.state.campsites)
     }
-
-    getCampsites = async () => {
+  
+    //CREATE / READ
+    //pass this functon as props to add form
+    //querries the database to post form data
+    //sets parent state with bracket notation and spread opperator
+    handleNewCampsite = async (data) => {
         try {
-            const response = await fetch('http://localhost:9000/api/v1/campsites', {
-                credentials: 'include'
+            const addedCampsite = await fetch('http://localhost:9000/api/v1/campsites', {
+                method: 'POST',
+                credentials: 'include',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
-            console.log(response)
-            if (response.status !== 200) {
-                // for http errors, Fetch doesn't reject the promise on 404 or 500
-                throw Error(response.statusText);
-            }
 
-            const responseParsed = await response.json();
-            // after setState render is automatically called
-            if(response != null) {
-                this.setState({
-                    campsites: responseParsed.data
-                });
-            console.log(responseParsed.data)
-            }
+            const parsedResponse = await addedCampsite.json();
+            console.log(parsedResponse)
+            this.setState({ campsites: [...this.state.campsites, parsedResponse.data] })
+
         } catch (err) {
-            console.log(err);
+            console.log(err)
         }
-    } 
-    updateCampsite = async (e) => {
-        e.preventDefault();
-        
+        console.log(this.state.campsites)
+    }
+  
+
+    //UPDATE
+    //pass as props to edit form
+    updateCampsite = async () => {
         try {
         const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + this.state.campsiteToEdit._id, {
             method: 'PUT',
@@ -146,6 +143,11 @@ class PageContainer extends Component {
         console.log(err)
         }   
     }
+    //DESTROY
+    // ADD a delete button to listItems
+
+
+    //set state to reflect clicked tab
     toggle(tab) {
         if (this.state.activeTab !== tab) {
             this.setState({
@@ -153,6 +155,7 @@ class PageContainer extends Component {
             });
         }
     }
+   
     render() {
 
         return (
@@ -169,15 +172,15 @@ campsites = { this.state.campsites }
                             className={classnames({ active: this.state.activeTab === '1' })}
                             onClick={() => { this.toggle('1'); }}
                         >
-                            My Campsites
+                            Add a Campsite
                         </NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink
-                            className={classnames({ active: this.state.activeTab === '2' })}
-                            onClick={() => { this.toggle('2'); }}
+                            className = { classnames({ active: this.state.activeTab === '2' }) }
+                            onClick = { () => { this.toggle('2'); } }
                         >
-                            Selected Campsite
+                            Selected Campsite (replace with variable for name - default to first)
                         </NavLink>
                     </NavItem>
                 </Nav>

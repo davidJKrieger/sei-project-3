@@ -1,22 +1,13 @@
 
 import React from 'react'
 import {
-    TabContent,
-    TabPane,
-    Nav,
-    NavItem,
-    NavLink,
     Card,
     Button,
     CardTitle,
-    CardText,
     Row,
-    Col,
     Form,
     FormGroup,
-    Label,
     Input,
-    FormText
 } from 'reactstrap';
 
 import classnames from 'classnames';
