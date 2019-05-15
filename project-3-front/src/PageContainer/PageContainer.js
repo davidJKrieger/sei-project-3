@@ -31,6 +31,7 @@ import classnames from 'classnames';
 import ListItem from './ListComponent/ListItem'
 import AddForm from './AddComponent/AddForm'
 import EditForm from './EditComponent/EditForm'
+import MarkerComponent from './MapContainer/Marker';
 
 class PageContainer extends Component {
     constructor() {
@@ -56,6 +57,10 @@ class PageContainer extends Component {
     }
     componentDidMount() {
        this.getCampsites()
+    }
+    highlightListItem = () => {
+        console.log('marker clicked')
+
     }
     handleChange = (e) => {
         this.setState({ [e.currentTarget.name]: e.currentTarget.value });
@@ -153,7 +158,8 @@ class PageContainer extends Component {
         return (
             <div>
                 <Header />
-<MyFancyComponent 
+<MarkerComponent
+highlightListItem = {this.highlightListItem} 
 selectedCampsite = { this.state.selectedCampsite }
 campsites = { this.state.campsites }
 />

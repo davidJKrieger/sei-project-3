@@ -4,7 +4,7 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-map
 import MyMapComponent from "./MyMapComponent"
 
 
-class MyFancyComponent extends React.PureComponent {
+class MarkerComponent extends React.PureComponent {
     state = {
         isMarkerShown: false,
     }
@@ -22,6 +22,7 @@ class MyFancyComponent extends React.PureComponent {
     handleMarkerClick = () => {
         this.setState({ isMarkerShown: false })
         this.delayedShowMarker()
+        this.props.highlightListItem()
     }
 
     render() {
@@ -30,9 +31,10 @@ class MyFancyComponent extends React.PureComponent {
                 isMarkerShown={ this.state.isMarkerShown }
                 onMarkerClick={ this.handleMarkerClick }
                 selectedCampsite={ this.props.selectedCampsite }
+                highlightListItem = { this.props.highlightListItem }
             />
         )
     }
 }
 
-export default MyFancyComponent
+export default MarkerComponent
