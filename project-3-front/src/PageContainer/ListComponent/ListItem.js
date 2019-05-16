@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button }from 'reactstrap';
 
 
 //Starting with "/" returns to the root directory and starts there
@@ -12,14 +13,15 @@ const ListItems = (props) => {
     const campsiteList = props.campsites.map((campsite) => {
         return (
             <li key={campsite._id}>
-                <div>{campsite.name}</div>
+                <h3 className="campsite-list-item">{campsite.name}</h3>
+                <button className="btn btn-outline-danger btn-sm" onClick={props.deleteCampsite.bind(null, campsite._id)}>Delete {campsite.name} </button>
             </li>
 
         )
     })
 
     return (
-        <ul>
+        <ul >
             {campsiteList}
         </ul>
     )

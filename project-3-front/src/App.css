@@ -48,3 +48,9 @@ header {
 #selectedTab {
   background-color: aquamarine
 }
+ul {
+  list-style-type: none;
+}
+.campsite-list-item {
+  border: none;
+}

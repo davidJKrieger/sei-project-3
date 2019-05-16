@@ -24,6 +24,7 @@ import AddForm from './AddComponent/AddForm'
 import EditForm from './EditComponent/EditForm'
 import MapContainer from './MapContainer/MapContainer';
 import MyMapComponent from './MapContainer/MyMapComponent';
+import NotesItem from './NotesComponent/NotesItem'
 
 class PageContainer extends Component {
     constructor() {
@@ -41,6 +42,7 @@ class PageContainer extends Component {
             selectedCampsite: {
                 id: null,
                 name: '',
+                notes: '',
                 lat: 0,
                 lng:0,
             },
@@ -55,8 +57,8 @@ class PageContainer extends Component {
     //it should set the edit form state to selected campsite 
     //and or highlight it on index list
     highlightListItem = () => {
-        console.log('marker clicked')
-
+        //when a user clicks on a marker, the selectdCampsite state should become the clicked id
+      console.log("clicked")
     }
     //simple function that gets passed to forms to show data as it is entered
     handleChange = (e) => {
@@ -66,6 +68,24 @@ class PageContainer extends Component {
     //return all sites
     //store as an array of objects in state
     //pass as props -- campsites
+
+    deleteCampsite = async (id, e) => {
+        console.log(id, ' this is id')
+        e.preventDefault();
+        try {
+            const deleteCampsite = await fetch('http://localhost:9000/api/v1/campsites/' + id, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+            console.log('inside try')
+            const deleteCampsiteJson = await deleteCampsite.json();
+            this.setState({ campsites: this.state.campsites.filter((campsite, i) => campsite._id !== id) });
+
+        } catch (err) {
+            console.log(err, ' error')
+        }
+    }
+
     getCampsites = async () => {
         try {
             //make an api call to get all of the campsites
@@ -116,7 +136,6 @@ class PageContainer extends Component {
         console.log(this.state.campsites)
     }
   
-
     //UPDATE
     //pass as props to edit form
     updateCampsite = async (data) => {
@@ -197,7 +216,10 @@ campsites = { this.state.campsites }
                             </Col>
                             <Col sm="6">
                                 <h4>List campsites here</h4>
-        <ListItem campsites = { this.state.campsites } />
+        <ListItem
+            campsites = { this.state.campsites } 
+            deleteCampsite = {this.deleteCampsite}
+        />
                             </Col>
                         </Row>
                     </TabPane>
@@ -212,7 +234,9 @@ campsites = { this.state.campsites }
                             </Col>
                             <Col sm="6">
                                 <h4>Campsite Notes</h4>
-                                <p> ornare, etiamdunt malesuada sodales lacus velit.</p>
+        <NotesItem
+        campsiteToEdit = {this.state.campsiteToEdit}
+        />
                             </Col>
                         </Row>
                     </TabPane>

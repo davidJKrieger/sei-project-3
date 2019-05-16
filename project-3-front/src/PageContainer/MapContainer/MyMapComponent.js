@@ -24,6 +24,8 @@ const MyMapComponent = compose(
             <Marker
                 position={{ lat: marker.lat, lng: marker.lng }}
                 key={marker._id}
+                name= {marker.name}
+                notes= {marker.notes}
             />
         ))}
     </GoogleMap>
@@ -31,18 +33,3 @@ const MyMapComponent = compose(
 
 export default MyMapComponent
 
-
-// const campMarker = this.props.campsites.map((campsite) => {
-//     return (
-//         <MyMapComponent
-//             key={campsite._id}
-//             markerLng={campsite.lng}
-//             markerLat={campsite.Lat}
-//             isMarkerShown={this.state.isMarkerShown}
-//             onMarkerClick={this.handleMarkerClick}
-//             selectedCampsite={this.props.selectedCampsite}
-//             highlightListItem={this.props.highlightListItem}
-//         />
-//     )
-// })
-// return campMarker

@@ -10,7 +10,6 @@ import {
     Input,
 } from 'reactstrap';
 
-import classnames from 'classnames';
 
 const EditForm = (props) => {
   

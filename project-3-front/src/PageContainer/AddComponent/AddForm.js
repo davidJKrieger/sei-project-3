@@ -75,7 +75,7 @@ class AddForm extends Component {
                             />
                         </Row> 
                         <Row> 
-                        <input type="submit" value="Submit" />
+                        <Input type="submit" value="Submit" />
                         </Row>
                     </FormGroup>
                 </Form>

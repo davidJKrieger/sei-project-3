@@ -4,17 +4,17 @@ import React from 'react'
 //Starting with "../" moves one directory backwards and starts there
 //Starting with "../../" moves two directories backwards and starts there(and so on...)
 //To move forward, just start with the first subdirectory and keep moving forward
-import ListItem from './ListItem'
 
 
-const DescItem = (props, e) => {
 
-  
-      const campsite = props.campsites.map((campsite, index) => {
-         return <id={index} campsite={ campsite }></ListItem>
-      })
-      return campsite
+const NotesItem = (props) => {
+
+      return (
+            <div>
+                  {props.campsiteToEdit.notes}
+            </div>
+      )
+
 }
 
-
-export default ListContainer
+export default NotesItem

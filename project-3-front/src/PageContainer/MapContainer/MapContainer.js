@@ -22,6 +22,7 @@ class MapContainer extends React.PureComponent {
     handleMarkerClick = () => {
         this.setState({ isMarkerShown: false })
         this.delayedShowMarker()
+        this.props.highlightListItem()
     }
 
     render() {
