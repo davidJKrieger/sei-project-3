@@ -19,12 +19,14 @@ import Header from './Header/Header'
 
 
 import classnames from 'classnames';
-import ListItem from './ListComponent/ListItem'
-import AddForm from './AddComponent/AddForm'
+import ListItem from './ListComponent/Modal/ListItem'
 import EditForm from './EditComponent/EditForm'
 import MapContainer from './MapContainer/MapContainer';
 import MyMapComponent from './MapContainer/MyMapComponent';
 import NotesItem from './NotesComponent/NotesItem'
+import AddModalComponent from './AddComponent/ModalContainer/AddModalComponent'
+import ListModalComponent from './ListComponent/Modal/ListModalComponent'
+
 
 class PageContainer extends Component {
     constructor() {
@@ -186,29 +188,11 @@ highlightListItem = {this.highlightListItem}
 selectedCampsite = { this.state.selectedCampsite }
 campsites = { this.state.campsites }
 />
-                <Nav tabs>
-                    <NavItem>
-                        <NavLink
-                            className={classnames({ active: this.state.activeTab === '1' })}
-                            onClick={() => { this.toggle('1'); }}
-                        >
-                            Add a Campsite
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink
-                            className = { classnames({ active: this.state.activeTab === '2' }) }
-                            onClick = { () => { this.toggle('2'); } }
-                        >
-                            Selected Campsite (replace with variable for name - default to first)
-                        </NavLink>
-                    </NavItem>
-                </Nav>
-                <TabContent activeTab={ this.state.activeTab }>
-                    <TabPane tabId="1">
+          
+         
                         <Row>
                             <Col sm="6">
-        <AddForm 
+        <AddModalComponent
             campsite = { this.state.campsites }
             handleNewCampsite = { this.handleNewCampsite }
         />
@@ -216,14 +200,12 @@ campsites = { this.state.campsites }
                             </Col>
                             <Col sm="6">
                                 <h4>List campsites here</h4>
-        <ListItem
+        <ListModalComponent
             campsites = { this.state.campsites } 
             deleteCampsite = {this.deleteCampsite}
         />
                             </Col>
                         </Row>
-                    </TabPane>
-                    <TabPane tabId="2">
                         <Row>
                             <Col sm="6">
         <EditForm 
@@ -239,8 +221,6 @@ campsites = { this.state.campsites }
         />
                             </Col>
                         </Row>
-                    </TabPane>
-                </TabContent>
             </div>
         );
     }
