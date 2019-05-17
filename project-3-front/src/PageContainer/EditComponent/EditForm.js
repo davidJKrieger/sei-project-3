@@ -22,18 +22,15 @@ import {
 import classnames from 'classnames';
 
 class EditForm extends Component {
-    constructor() {
+    constructor(){
         super()
         this.state = {
+            id: '',
             name: '',
             lat: null,
             lng: null,
-            notes: ''
+            notes: '',
         }
-    }
-    handleSubmit = (e) => {
-        e.preventDefault()
-        this.props.handleNewCampsite(this.state)
     }
 
     handleChange = (e) => {
@@ -41,30 +38,44 @@ class EditForm extends Component {
             [e.currentTarget.name]: e.currentTarget.value,
         })
     }
-        render(){
+    handleSubmit = (e) => {
+        e.preventDefault()
+        this.props.updateCampsite(this.state)
+    }
+
+    componentWillUnmount() {
+        this.setState({
+            id: '',
+            name: '',
+            lat: null,
+            lng: null,
+            notes: '',
+        });
+    }
+    render(){
         return (
             <Card body>
-                <CardTitle>Edit This Campsite</CardTitle>
+                <CardTitle>Edit Campsite</CardTitle>
                 <Form onSubmit= { this.handleSubmit }>
                     <FormGroup>
                         <Row>
                             <Input
-                                name= "name"
-                                onChange= { this.handleChange }
-                                value= { this.state.name }
+                                type= "text"
+                                name= "name"                        
+                                onChange={this.handleChange}
                             />
                         </Row>
                         <Row>
                             <Input
                                 type= "number"
                                 name= "lat"
-                                onChange= { this.handleChange }
-                                value= { this.state.lat}
+                                onChange={this.handleChange}
+                                
                             />
                             <Input
                                 type= "number"
                                 name= "lng"
-                                value= { this.state.lng }
+                                onChange={this.handleChange}
                             />
                         </Row>
                         <Row>

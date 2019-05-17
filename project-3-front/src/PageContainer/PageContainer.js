@@ -38,11 +38,18 @@ class PageContainer extends Component {
         this.state = {
             activeTab: '1',
             campsites: [],
+            id: '',
+            name: '',
+            lat: null,
+            lng: null,
+            notes: '',
+
             selectedCampsite: {
-                id: null,
+                id: '',
                 name: '',
-                lat: 0,
-                lng:0,
+                lat: null,
+                lng:null,
+                notes:''
             }
 
         };
@@ -50,15 +57,25 @@ class PageContainer extends Component {
     componentDidMount() {
        this.getCampsites()
     }
-    handleEditForm = (e) => {
+
+    handleChange = (e) => {
         this.setState({
-            selectedCampsite: {
-                ...this.state.selectedCampsite,
-                [e.target.name]: e.target.value
-            }
+            [e.currentTarget.name]: e.currentTarget.value,
         })
     }
+    handleSubmit = (e) => {
+        e.preventDefault()
+        this.updateCampsite(this.state)
+    }
+    toggleTwo = (campsite) => {
+        this.toggle('2')
+        this.setState({
+            selectedCampsite:campsite
+        })
+    }
+
     selectCampsite = async (id) => {
+        this.toggleTwo()
         try {
             const selectCampsite = await fetch('http://localhost:9000/api/v1/campsites/' + id, {
                 method: 'GET',
@@ -73,7 +90,6 @@ class PageContainer extends Component {
         } catch (err) {
             console.log(err, ' error')
         }
-        console.log(id, ' this is id')
     }
     handleNewCampsite = async (data) => {
         try {
@@ -121,28 +137,27 @@ class PageContainer extends Component {
             console.log(err);
         }
     } 
-    updateCampsite = async (e) => {
-        e.preventDefault();
+    updateCampsite = async (campsite) => {
         (console.log("update"))
         try {
-        const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + this.state.selectedCampsite._id, {
+        const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + this.state.selectedCampsite.id, {
             method: 'PUT',
-            body: JSON.stringify(this.state.selectedCampsite),
+            body: JSON.stringify(campsite),
             headers: {
             'Content-Type': 'application/json'
             }
         })
 
         const parsedResponse = await editResponse.json();
-        const foundCampsite = this.state.campsites.map((campsite) => {
-            if(campsite._id === this.state.campsiteToEdit._id) {
+        const campsiteToEdit = this.state.campsites.map((campsite) => {
+            if(campsite._id === this.state._id) {
                 campsite = parsedResponse.data;
             }
-        return campsite
+        return campsiteToEdit
         })
 
         this.setState({
-            campsiteToEdit: foundCampsite,
+            selectedCampsite: campsiteToEdit,
             });
         }catch(err) {
         console.log(err)
@@ -172,10 +187,7 @@ class PageContainer extends Component {
             });
         }
     }
-    toggleTwo = () => {
-        this.toggle('2')
-    }
-    
+
     render() {
 
         return (
@@ -236,8 +248,8 @@ campsites = { this.state.campsites }
         />
                             </Col>
                             <Col sm="6">
-                                <h4>{this.state.selectedCampsite.name} Notes</h4>
-                                <p> {this.state.selectedCampsite.notes}</p>
+                                <h4>Notes</h4>
+                                <p> words</p>
                             </Col>
                         </Row>
                     </TabPane>
