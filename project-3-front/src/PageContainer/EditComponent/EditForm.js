@@ -43,15 +43,6 @@ class EditForm extends Component {
         this.props.updateCampsite(this.state)
     }
 
-    componentWillUnmount() {
-        this.setState({
-            id: '',
-            name: '',
-            lat: null,
-            lng: null,
-            notes: '',
-        });
-    }
     render(){
         return (
             <Card body>

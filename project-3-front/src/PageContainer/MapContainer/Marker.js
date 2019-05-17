@@ -7,10 +7,15 @@ import MyMapComponent from "./MyMapComponent"
 class MyFancyComponent extends React.PureComponent {
     state = {
         isMarkerShown: false,
+        selectedCampsite:{}
     }
 
     componentDidMount() {
-        this.delayedShowMarker()
+        this.setState({
+            isMarkerShown: true,
+            selectedCampsite: this.props.selectedCampsite
+
+        })
     }
 
     delayedShowMarker = () => {
@@ -20,8 +25,10 @@ class MyFancyComponent extends React.PureComponent {
     }
 
     handleMarkerClick = () => {
-        this.setState({ isMarkerShown: false })
-        this.delayedShowMarker()
+        this.setState({
+             isMarkerShown: true,
+            selectedCampsite: this.props.selectedCampsite
+            })
     }
 
     render() {
@@ -29,7 +36,7 @@ class MyFancyComponent extends React.PureComponent {
             <MyMapComponent
                 isMarkerShown={ this.state.isMarkerShown }
                 onMarkerClick={ this.handleMarkerClick }
-                selectedCampsite={ this.props.selectedCampsite }
+                selectedCampsite={ this.selectedCampsite }
                 campsites={this.props.campsites}
             />
         )

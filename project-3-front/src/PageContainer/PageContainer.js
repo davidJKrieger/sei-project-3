@@ -73,23 +73,8 @@ class PageContainer extends Component {
             selectedCampsite:campsite
         })
     }
-
-    selectCampsite = async (id) => {
-        this.toggleTwo()
-        try {
-            const selectCampsite = await fetch('http://localhost:9000/api/v1/campsites/' + id, {
-                method: 'GET',
-                credentials: 'include'
-            });
-            console.log('inside try')
-            const selectedCampsite = await selectCampsite.json();
-            this.setState({
-                selectedCampsite: {...this.state.campsites.filter((campsite, i) => campsite._id === id)}
-            });
-
-        } catch (err) {
-            console.log(err, ' error')
-        }
+    selectCampsite = async (campsite) => {
+        this.toggleTwo(campsite)
     }
     handleNewCampsite = async (data) => {
         try {
@@ -104,16 +89,16 @@ class PageContainer extends Component {
 
             const parsedResponse = await addedCampsite.json();
             console.log(parsedResponse)
-            this.setState({ campsites: [...this.state.campsites, parsedResponse.data] })
+            this.setState({ 
+                campsites: [...this.state.campsites, parsedResponse.data],
+                selectedCampsite: parsedResponse.data
+            })
 
         } catch (err) {
             console.log(err)
         }
         console.log(this.state.campsites)
     }
-
-
-
     getCampsites = async () => {
         try {
             const response = await fetch('http://localhost:9000/api/v1/campsites', {
@@ -129,7 +114,8 @@ class PageContainer extends Component {
             // after setState render is automatically called
             if(response != null) {
                 this.setState({
-                    campsites: responseParsed.data
+                    campsites: responseParsed.data,
+                    selectedCampsite: responseParsed.data[0]
                 });
             console.log(responseParsed.data)
             }
@@ -183,13 +169,12 @@ class PageContainer extends Component {
     toggle(tab) {
         if (this.state.activeTab !== tab) {
             this.setState({
-                activeTab: tab
+                activeTab: tab,
+
             });
         }
     }
-
     render() {
-
         return (
             <div>
                 <Header />
@@ -211,7 +196,7 @@ campsites = { this.state.campsites }
                             className={classnames({ active: this.state.activeTab === '2' })}
                             onClick={() => { this.toggle('2'); }}
                         >
-                            Selected Campsite
+                            {this.state.selectedCampsite.name}
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -248,8 +233,8 @@ campsites = { this.state.campsites }
         />
                             </Col>
                             <Col sm="6">
-                                <h4>Notes</h4>
-                                <p> words</p>
+                                <h4>{this.state.selectedCampsite.name}</h4>
+                                <p> {this.state.selectedCampsite.notes}</p>
                             </Col>
                         </Row>
                     </TabPane>
