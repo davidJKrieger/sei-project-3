@@ -22,42 +22,56 @@ import {
 import classnames from 'classnames';
 
 class EditForm extends Component {
-  
-    render(){
+    constructor() {
+        super()
+        this.state = {
+            name: '',
+            lat: null,
+            lng: null,
+            notes: ''
+        }
+    }
+    handleSubmit = (e) => {
+        e.preventDefault()
+        this.props.handleNewCampsite(this.state)
+    }
+
+    handleChange = (e) => {
+        this.setState({
+            [e.currentTarget.name]: e.currentTarget.value,
+        })
+    }
+        render(){
         return (
             <Card body>
                 <CardTitle>Edit This Campsite</CardTitle>
-                <Form onSubmit={this.props.handleSubmit}>
+                <Form onSubmit= { this.handleSubmit }>
                     <FormGroup>
                         <Row>
                             <Input
-                                type="text"
-                                name="name"
-                                onChange={this.props.handleChange}
-                                placeholder='Name your Campsite'
-                                value={this.props.campsite.name}
+                                name= "name"
+                                onChange= { this.handleChange }
+                                value= { this.state.name }
                             />
                         </Row>
                         <Row>
                             <Input
-                                type="number"
-                                name="lat"
-                                onChange={this.props.handleChange}
-                                placeholder={this.props.lat}
-                                value={this.props.campsite.lat}
+                                type= "number"
+                                name= "lat"
+                                onChange= { this.handleChange }
+                                value= { this.state.lat}
                             />
                             <Input
-                                type="number"
-                                name="lng"
-                                onChange={this.props.handleChange}
-                                value={this.props.campsite.lng}
+                                type= "number"
+                                name= "lng"
+                                value= { this.state.lng }
                             />
                         </Row>
                         <Row>
                             <Input
-                                type="text"
-                                name="notes"
-                                onChange={this.props.handleChange}
+                                type= "text"
+                                name= "notes"
+                                onChange={ this.handleChange }
                             />
                         </Row>
                         <Row>
@@ -66,17 +80,8 @@ class EditForm extends Component {
                     </FormGroup>
                 </Form>
             </Card>
-        )
-
-
-
-
-
-
-
-
+        )  
     }
-    
 }
 
 export default EditForm

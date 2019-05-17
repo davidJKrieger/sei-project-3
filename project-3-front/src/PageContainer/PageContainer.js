@@ -38,13 +38,6 @@ class PageContainer extends Component {
         this.state = {
             activeTab: '1',
             campsites: [],
-            campsiteToEdit: {
-                id: null,
-                name: '',
-                notes: '',
-                lat: 0,
-                lng: 0,
-            },
             selectedCampsite: {
                 id: null,
                 name: '',
@@ -57,10 +50,30 @@ class PageContainer extends Component {
     componentDidMount() {
        this.getCampsites()
     }
-    selectACampsite = (campsite) => {
+    handleEditForm = (e) => {
         this.setState({
-            selectedCampsite: campsite
-        });
+            selectedCampsite: {
+                ...this.state.selectedCampsite,
+                [e.target.name]: e.target.value
+            }
+        })
+    }
+    selectCampsite = async (id) => {
+        try {
+            const selectCampsite = await fetch('http://localhost:9000/api/v1/campsites/' + id, {
+                method: 'GET',
+                credentials: 'include'
+            });
+            console.log('inside try')
+            const selectedCampsite = await selectCampsite.json();
+            this.setState({
+                selectedCampsite: {...this.state.campsites.filter((campsite, i) => campsite._id === id)}
+            });
+
+        } catch (err) {
+            console.log(err, ' error')
+        }
+        console.log(id, ' this is id')
     }
     handleNewCampsite = async (data) => {
         try {
@@ -110,11 +123,11 @@ class PageContainer extends Component {
     } 
     updateCampsite = async (e) => {
         e.preventDefault();
-        
+        (console.log("update"))
         try {
-        const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + this.state.campsiteToEdit._id, {
+        const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + this.state.selectedCampsite._id, {
             method: 'PUT',
-            body: JSON.stringify(this.state.campsiteToEdit),
+            body: JSON.stringify(this.state.selectedCampsite),
             headers: {
             'Content-Type': 'application/json'
             }
@@ -136,7 +149,6 @@ class PageContainer extends Component {
         }   
     }
     deleteCampsite = async (id, e) => {
-        console.log(id, ' this is id')
         e.preventDefault();
         try {
             const deleteCampsite = await fetch('http://localhost:9000/api/v1/campsites/' + id, {
@@ -145,13 +157,14 @@ class PageContainer extends Component {
             });
             console.log('inside try')
             const deleteCampsiteJson = await deleteCampsite.json();
-            this.setState({ campsites: this.state.campsites.filter((campsite, i) => campsite._id !== id) });
+            this.setState({ 
+                campsites: this.state.campsites.filter((campsite, i) => campsite._id !== id)
+            });
 
         } catch (err) {
             console.log(err, ' error')
         }
     }
-
     toggle(tab) {
         if (this.state.activeTab !== tab) {
             this.setState({
@@ -204,9 +217,10 @@ campsites = { this.state.campsites }
         <ListItem 
             activeTab = {this.state.activeTab}
             toggleTwo = {this.toggleTwo}
-            selectACampsite = {this.selectACampsite}
+            selectCampsite = {this.selectCampsite}
             campsites = { this.state.campsites } 
             deleteCampsite={this.deleteCampsite}
+            updateCampsite= {this.updateCampsite}
         />
        
                             </Col>
@@ -216,14 +230,14 @@ campsites = { this.state.campsites }
                         <Row>
                             <Col sm="6">
         <EditForm 
-            campsite = { this.state.campsiteToEdit }
-            handleChange = { this.handleChange }
+            campsite = { this.state.selectedCampsite }
+            handleChange = { this.handleEditForm }
             updateCampsite = { this.updateCampsite }
         />
                             </Col>
                             <Col sm="6">
-                                <h4>Campsite Notes</h4>
-                                <p> ornare, etiamdunt malesuada sodales lacus velit.</p>
+                                <h4>{this.state.selectedCampsite.name} Notes</h4>
+                                <p> {this.state.selectedCampsite.notes}</p>
                             </Col>
                         </Row>
                     </TabPane>
