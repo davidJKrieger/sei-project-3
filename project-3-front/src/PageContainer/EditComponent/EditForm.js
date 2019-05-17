@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { Component } from 'react'
 import {
     TabContent,
     TabPane,
@@ -21,51 +21,61 @@ import {
 
 import classnames from 'classnames';
 
-const EditForm = (props) => {
+class EditForm extends Component {
   
-    return(
-        <Card body>
-            <CardTitle>Edit This Campsite</CardTitle>
-            <Form onSubmit={ props.handleSubmit }>
-                <FormGroup>
-                    <Row>
-                        <Input
-                            type="text"
-                            name="name"
-                            onChange={props.handleChange}
-                            placeholder='Name your Campsite'
-                            value={props.campsite.name}
-                        />
-                    </Row>
-                    <Row>
-                        <Input 
-                            type = "number"
-                            name = "lat" 
-                            onChange = { props.handleChange }
-                            placeholder = { props.lat }
-                            value = { props.campsite.lat }
-                        />
-                        <Input 
-                            type = "number"
-                            name = "lng" 
-                            onChange = { props.handleChange }
-                            value = { props.campsite.lng }
-                        />
-                    </Row>
-                    <Row>
-                        <Input 
-                            type="text" 
-                            name="notes" 
-                            onChange = { props.handleChange }
-                        />
-                    </Row>
-                    <Row>
-                        <input type="submit" value="Submit" />
-                    </Row>
-                </FormGroup>
-            </Form>
-        </Card>
-    )
+    render(){
+        return (
+            <Card body>
+                <CardTitle>Edit This Campsite</CardTitle>
+                <Form onSubmit={this.props.handleSubmit}>
+                    <FormGroup>
+                        <Row>
+                            <Input
+                                type="text"
+                                name="name"
+                                onChange={this.props.handleChange}
+                                placeholder='Name your Campsite'
+                                value={this.props.campsite.name}
+                            />
+                        </Row>
+                        <Row>
+                            <Input
+                                type="number"
+                                name="lat"
+                                onChange={this.props.handleChange}
+                                placeholder={this.props.lat}
+                                value={this.props.campsite.lat}
+                            />
+                            <Input
+                                type="number"
+                                name="lng"
+                                onChange={this.props.handleChange}
+                                value={this.props.campsite.lng}
+                            />
+                        </Row>
+                        <Row>
+                            <Input
+                                type="text"
+                                name="notes"
+                                onChange={this.props.handleChange}
+                            />
+                        </Row>
+                        <Row>
+                            <input type="submit" value="Submit" />
+                        </Row>
+                    </FormGroup>
+                </Form>
+            </Card>
+        )
+
+
+
+
+
+
+
+
+    }
     
 }
 

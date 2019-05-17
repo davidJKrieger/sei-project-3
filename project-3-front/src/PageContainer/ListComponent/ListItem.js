@@ -9,10 +9,21 @@ import React from 'react'
 
 const ListItems = (props) => {
 
+   
+
     const campsiteList = props.campsites.map((campsite) => {
+        
+        const showSelected = () => {
+            props.selectACampsite.bind(null, campsite._id) 
+            props.toggleTwo()
+        }
+
+
         return (
             <li key={campsite._id}>
-                <div>{campsite.name}</div>
+                <h2>{campsite.name}</h2>
+                <button className="btn btn-outline-secondary btn-sm" onClick={ showSelected }>Edit {campsite.name}</button>
+                <button className="btn btn-outline-danger btn-sm" onClick={props.deleteCampsite.bind(null, campsite._id)}>Delete {campsite.name} </button>
             </li>
 
         )

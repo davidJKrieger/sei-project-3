@@ -1,10 +1,10 @@
 {
   "name": "project-3-back",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,5 +16,6 @@
     "morgan": "^1.9.1",
     "nodemon": "^1.19.0",
     "react-google-maps": "^9.4.5"
-  }
+  },
+  "description": ""
 }

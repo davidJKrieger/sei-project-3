@@ -57,39 +57,33 @@ class PageContainer extends Component {
     componentDidMount() {
        this.getCampsites()
     }
-    handleChange = (e) => {
-        this.setState({ [e.currentTarget.name]: e.currentTarget.value });
+    selectACampsite = (campsite) => {
+        this.setState({
+            selectedCampsite: campsite
+        });
     }
-    getCampsites = async () => {
-
+    handleNewCampsite = async (data) => {
         try {
-            //make an api call to get all of the campsites
-            const response = await fetch('http://localhost:9000/api/v1/campsites', {
-
+            const addedCampsite = await fetch('http://localhost:9000/api/v1/campsites', {
+                method: 'POST',
+                credentials: 'include',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
-            console.log(response)
-            //respond with error if call fails
-            if (response.status !== 200) {
-                // for http errors, Fetch doesn't reject the promise on 404 or 500
-                throw Error(response.statusText);
-            }
-            //the response will comeback a regular json. it must be parsed into a js obj
-            const responseParsed = await response.json();
 
-            this.setState({
-                //set the value of the state campsite key as parsedresponse.data
-                //dont forget .data -- this is what the object comming back looks like:
-                //          //res.json({
-                //status: 200,
-                //data: campsite
-                //});
-                campsites: responseParsed.data
-            });
-            // remember that render is automatically called after setState
+            const parsedResponse = await addedCampsite.json();
+            console.log(parsedResponse)
+            this.setState({ campsites: [...this.state.campsites, parsedResponse.data] })
+
         } catch (err) {
-            console.log(err);
+            console.log(err)
         }
+        console.log(this.state.campsites)
     }
+
+
 
     getCampsites = async () => {
         try {
@@ -141,6 +135,23 @@ class PageContainer extends Component {
         console.log(err)
         }   
     }
+    deleteCampsite = async (id, e) => {
+        console.log(id, ' this is id')
+        e.preventDefault();
+        try {
+            const deleteCampsite = await fetch('http://localhost:9000/api/v1/campsites/' + id, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+            console.log('inside try')
+            const deleteCampsiteJson = await deleteCampsite.json();
+            this.setState({ campsites: this.state.campsites.filter((campsite, i) => campsite._id !== id) });
+
+        } catch (err) {
+            console.log(err, ' error')
+        }
+    }
+
     toggle(tab) {
         if (this.state.activeTab !== tab) {
             this.setState({
@@ -148,6 +159,10 @@ class PageContainer extends Component {
             });
         }
     }
+    toggleTwo = () => {
+        this.toggle('2')
+    }
+    
     render() {
 
         return (
@@ -183,11 +198,17 @@ campsites = { this.state.campsites }
             campsite = { this.state.campsites }
             handleNewCampsite = { this.handleNewCampsite }
         />
-            
                             </Col>
                             <Col sm="6">
-                                <h4>List campsites here</h4>
-        <ListItem campsites = { this.state.campsites } />
+                                <h2>List of Campsites</h2>
+        <ListItem 
+            activeTab = {this.state.activeTab}
+            toggleTwo = {this.toggleTwo}
+            selectACampsite = {this.selectACampsite}
+            campsites = { this.state.campsites } 
+            deleteCampsite={this.deleteCampsite}
+        />
+       
                             </Col>
                         </Row>
                     </TabPane>

@@ -30,6 +30,7 @@ class MyFancyComponent extends React.PureComponent {
                 isMarkerShown={ this.state.isMarkerShown }
                 onMarkerClick={ this.handleMarkerClick }
                 selectedCampsite={ this.props.selectedCampsite }
+                campsites={this.props.campsites}
             />
         )
     }

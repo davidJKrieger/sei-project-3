@@ -20,7 +20,14 @@ const MyMapComponent = compose(
         defaultZoom={8}
         defaultCenter={{ lat: 39.7392358, lng: -104.990251 }}
     >
-        {props.isMarkerShown && <Marker position={{ lat: 39.7392358, lng: -104.990251 }} onClick={props.onMarkerClick} />}
+        {props.campsites.map(marker => (
+            <Marker
+                position={{ lat: marker.lat, lng: marker.lng }}
+                key={marker._id}
+                name={marker.name}
+                notes={marker.notes}
+            />
+        ))}
     </GoogleMap>
 )
 
