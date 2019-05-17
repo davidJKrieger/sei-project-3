@@ -26,7 +26,7 @@ class ListItem extends Component {
             return(
                 <li key={campsite._id}>
                     <h2>{campsite.name}</h2>
-                    <button className="btn btn-outline-secondary btn-sm" onClick={this.props.selectCampsite.bind(null, campsite._id)}>Edit {campsite.name}</button>
+                    <button className="btn btn-outline-secondary btn-sm" onClick={this.props.selectCampsite.bind(null, campsite)}>Edit {campsite.name}</button>
                     <button className="btn btn-outline-danger btn-sm" onClick={this.props.deleteCampsite.bind(null, campsite._id)}>Delete {campsite.name} </button>
                 </li>
 

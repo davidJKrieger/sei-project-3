@@ -67,14 +67,12 @@ class PageContainer extends Component {
         e.preventDefault()
         this.updateCampsite(this.state)
     }
-    toggleTwo = (campsite) => {
+
+    selectCampsite = async (campsite) => {
         this.toggle('2')
         this.setState({
-            selectedCampsite:campsite
+            selectedCampsite: campsite
         })
-    }
-    selectCampsite = async (campsite) => {
-        this.toggleTwo(campsite)
     }
     handleNewCampsite = async (data) => {
         try {
@@ -123,12 +121,13 @@ class PageContainer extends Component {
             console.log(err);
         }
     } 
-    updateCampsite = async (campsite) => {
+    updateCampsite = async (selectedCampsite) => {
+
         (console.log("update"))
         try {
-        const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + this.state.selectedCampsite.id, {
+        const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + selectedCampsite, {
             method: 'PUT',
-            body: JSON.stringify(campsite),
+            body: JSON.stringify(this.state.selectedCampsite),
             headers: {
             'Content-Type': 'application/json'
             }
@@ -136,18 +135,18 @@ class PageContainer extends Component {
 
         const parsedResponse = await editResponse.json();
         const campsiteToEdit = this.state.campsites.map((campsite) => {
-            if(campsite._id === this.state._id) {
+            if(campsite.id === this.state.id) {
                 campsite = parsedResponse.data;
             }
         return campsiteToEdit
         })
-
-        this.setState({
-            selectedCampsite: campsiteToEdit,
+            this.setState({
+                selectedCampsite: campsiteToEdit,
             });
         }catch(err) {
         console.log(err)
         }   
+
     }
     deleteCampsite = async (id, e) => {
         e.preventDefault();
