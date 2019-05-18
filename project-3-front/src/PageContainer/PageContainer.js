@@ -38,17 +38,17 @@ class PageContainer extends Component {
         this.state = {
             activeTab: '1',
             campsites: [],
-            id: '',
+            id: null,
             name: '',
-            lat: null,
-            lng: null,
+            lat: 0,
+            lng: 0,
             notes: '',
 
             selectedCampsite: {
-                id: '',
+                id: null,
                 name: '',
-                lat: null,
-                lng:null,
+                lat: 0,
+                lng: 0,
                 notes:''
             }
 
@@ -113,7 +113,6 @@ class PageContainer extends Component {
             if(response != null) {
                 this.setState({
                     campsites: responseParsed.data,
-                    selectedCampsite: responseParsed.data[0]
                 });
             console.log(responseParsed.data)
             }
@@ -121,33 +120,30 @@ class PageContainer extends Component {
             console.log(err);
         }
     } 
-    updateCampsite = async (selectedCampsite) => {
-
-        (console.log("update"))
-        try {
-        const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + selectedCampsite, {
-            method: 'PUT',
-            body: JSON.stringify(this.state.selectedCampsite),
+    updateCampsite = async (campsite, id ) => {
+        const response = await fetch('http://localhost:9000/api/v1/campsites/' + id, {
+            method: "PUT",
+            body: JSON.stringify(campsite),
             headers: {
-            'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             }
         })
-
-        const parsedResponse = await editResponse.json();
-        const campsiteToEdit = this.state.campsites.map((campsite) => {
-            if(campsite.id === this.state.id) {
-                campsite = parsedResponse.data;
-            }
-        return campsiteToEdit
-        })
+        const updatedCampsite = await response.json();
+        console.log(updatedCampsite);
+        if (response.status === 200) {
+            console.log("updated")
             this.setState({
-                selectedCampsite: campsiteToEdit,
-            });
-        }catch(err) {
-        console.log(err)
-        }   
-
+                donuts: this.state.campsites.map((campsite) => {
+                    if (campsite._id === id) {
+                        return updatedCampsite
+                    }
+                    return campsite
+                })
+            })
+        }
     }
+    
+
     deleteCampsite = async (id, e) => {
         e.preventDefault();
         try {
@@ -227,7 +223,7 @@ campsites = { this.state.campsites }
                             <Col sm="6">
         <EditForm 
             campsite = { this.state.selectedCampsite }
-            handleChange = { this.handleEditForm }
+            handleChange = { this.handleChange }
             updateCampsite = { this.updateCampsite }
         />
                             </Col>

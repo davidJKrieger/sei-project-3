@@ -19,8 +19,6 @@ class ListItem extends Component {
             notes: ''
         }
     }
-
-
     render(){
         const campsiteList = this.props.campsites.map((campsite) => {
             return(
@@ -29,16 +27,13 @@ class ListItem extends Component {
                     <button className="btn btn-outline-secondary btn-sm" onClick={this.props.selectCampsite.bind(null, campsite)}>Edit {campsite.name}</button>
                     <button className="btn btn-outline-danger btn-sm" onClick={this.props.deleteCampsite.bind(null, campsite._id)}>Delete {campsite.name} </button>
                 </li>
-
-
             )
- 
         })
-            return (
-                    <ul>
-                        {campsiteList}
-                    </ul >
-                    )  
+        return (
+                <ul>
+                    {campsiteList}
+                </ul>
+                )  
                 
     }
             

@@ -26,6 +26,12 @@ class AddForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault()
         this.props.handleNewCampsite(this.state)
+        this.setState({
+            name: '',
+            lat: null,
+            lng: null,
+            notes: ''
+        })
     }
 
     handleChange = (e) => {
@@ -46,7 +52,6 @@ class AddForm extends Component {
                                 name="name"
                                 onChange={this.handleChange}
                                 placeholder='Name your Campsite'
-
                             />
                         </Row>
                         <Row>
@@ -55,14 +60,12 @@ class AddForm extends Component {
                                 name="lat"
                                 onChange={this.handleChange}
                                 placeholder='Enter the latitude coordinate'
-
                             />
                             <Input
                                 type="number"
                                 name="lng"
                                 onChange={this.handleChange}
                                 placeholder='Enter the longitude coordinate'
-
                             />
                         </Row>
                         <Row>
@@ -71,7 +74,6 @@ class AddForm extends Component {
                                 name="notes"
                                 onChange={this.handleChange}
                                 placeholder='Describe the site and leave some notes here'
-
                             />
                         </Row>
                         <Row>

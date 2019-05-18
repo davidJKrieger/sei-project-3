@@ -25,7 +25,7 @@ class EditForm extends Component {
     constructor(){
         super()
         this.state = {
-            id: '',
+            _id: null,
             name: '',
             lat: null,
             lng: null,
@@ -40,7 +40,10 @@ class EditForm extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault()
-        this.props.updateCampsite(this.state)
+        const formData = this.state
+        console.log(formData)
+        this.props.updateCampsite(formData)
+
     }
 
     render(){
@@ -52,28 +55,32 @@ class EditForm extends Component {
                         <Row>
                             <Input
                                 type= "text"
-                                name= "name"                        
-                                onChange={this.handleChange}
+                                name= "name"
+                                onChange= {this.handleChange}
+                          
                             />
                         </Row>
                         <Row>
                             <Input
                                 type= "number"
                                 name= "lat"
-                                onChange={this.handleChange}
+                                onChange= {this.handleChange}
+                               
                                 
                             />
                             <Input
                                 type= "number"
                                 name= "lng"
-                                onChange={this.handleChange}
+                                onChange= {this.handleChange}
+                              
                             />
                         </Row>
                         <Row>
                             <Input
                                 type= "text"
                                 name= "notes"
-                                onChange={ this.handleChange }
+                                onChange= { this.handleChange }
+                         
                             />
                         </Row>
                         <Row>

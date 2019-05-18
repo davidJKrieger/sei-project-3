@@ -13,7 +13,7 @@ class MyFancyComponent extends React.PureComponent {
     componentDidMount() {
         this.setState({
             isMarkerShown: true,
-            selectedCampsite: this.props.selectedCampsite
+  
 
         })
     }
@@ -27,16 +27,17 @@ class MyFancyComponent extends React.PureComponent {
     handleMarkerClick = () => {
         this.setState({
              isMarkerShown: true,
-            selectedCampsite: this.props.selectedCampsite
+     //       selectedCampsite: this.props.selectedCampsite
             })
     }
 
     render() {
         return (
             <MyMapComponent
+                componentDidMount= {this.componentDidMount}
                 isMarkerShown={ this.state.isMarkerShown }
                 onMarkerClick={ this.handleMarkerClick }
-                selectedCampsite={ this.selectedCampsite }
+                selectedCampsite={ this.props.selectedCampsite }
                 campsites={this.props.campsites}
             />
         )
