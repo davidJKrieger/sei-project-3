@@ -43,9 +43,8 @@ class PageContainer extends Component {
             lat: 0,
             lng: 0,
             notes: '',
-
+            selectedCampsiteId: null,
             selectedCampsite: {
-                id: null,
                 name: '',
                 lat: 0,
                 lng: 0,
@@ -54,26 +53,20 @@ class PageContainer extends Component {
 
         };
     }
-    componentDidMount() {
-       this.getCampsites()
-    }
 
-    handleChange = (e) => {
-        this.setState({
-            [e.currentTarget.name]: e.currentTarget.value,
-        })
-    }
-    handleSubmit = (e) => {
-        e.preventDefault()
-        this.updateCampsite(this.state)
-    }
 
-    selectCampsite = async (campsite) => {
+  
+
+    selectCampsite = async (id, e) => {
         this.toggle('2')
+        const selectedCampsite = this.state.campsites.find((campsite) => campsite._id === id)
         this.setState({
-            selectedCampsite: campsite
-        })
+            showEdit: true,
+            editMovieId: id,
+            selectedCampsite: selectedCampsite
+        });
     }
+
     handleNewCampsite = async (data) => {
         try {
             const addedCampsite = await fetch('http://localhost:9000/api/v1/campsites', {
@@ -120,26 +113,51 @@ class PageContainer extends Component {
             console.log(err);
         }
     } 
-    updateCampsite = async (campsite, id ) => {
-        const response = await fetch('http://localhost:9000/api/v1/campsites/' + id, {
-            method: "PUT",
-            body: JSON.stringify(campsite),
-            headers: {
-                "Content-Type": "application/json"
+    handleFormChange = (e) => {
+
+        this.setState({
+            selectedCampsite: {
+                ...this.state.selectedCampsite,
+                [e.target.name]: e.target.value
             }
         })
-        const updatedCampsite = await response.json();
-        console.log(updatedCampsite);
-        if (response.status === 200) {
-            console.log("updated")
+    }
+
+
+    updateCampsite = async (e) => {
+        e.preventDefault();
+
+        try {
+            const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + this.state.editCampsiteId, {
+                method: 'PUT',
+                body: JSON.stringify(this.state.selectedCampsite),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const parsedResponse = await editResponse.json();
+
+            const editedCampsiteArray = this.state.campsites.map((campsite) => {
+
+                if (campsite._id === this.state.editCampsiteId) {
+
+                    campsite.name = parsedResponse.data.name;
+                    campsite.lat = parsedResponse.data.lat;
+                    campsite.lng = parsedResponse.data.lng;
+                    campsite.notes = parsedResponse.data.notes;
+                }
+                return campsite
+            });
+
             this.setState({
-                donuts: this.state.campsites.map((campsite) => {
-                    if (campsite._id === id) {
-                        return updatedCampsite
-                    }
-                    return campsite
-                })
-            })
+                campsites: editedCampsiteArray,
+            });
+
+
+
+        } catch (err) {
+            console.log(err);
         }
     }
     
@@ -168,6 +186,9 @@ class PageContainer extends Component {
 
             });
         }
+    }
+    componentDidMount() {
+        this.getCampsites()
     }
     render() {
         return (
@@ -211,8 +232,7 @@ campsites = { this.state.campsites }
             toggleTwo = {this.toggleTwo}
             selectCampsite = {this.selectCampsite}
             campsites = { this.state.campsites } 
-            deleteCampsite={this.deleteCampsite}
-            updateCampsite= {this.updateCampsite}
+            deleteCampsite={this.deleteCampsite} 
         />
        
                             </Col>
@@ -225,6 +245,7 @@ campsites = { this.state.campsites }
             campsite = { this.state.selectedCampsite }
             handleChange = { this.handleChange }
             updateCampsite = { this.updateCampsite }
+            handleFormChange ={ this.handleFormChange }
         />
                             </Col>
                             <Col sm="6">

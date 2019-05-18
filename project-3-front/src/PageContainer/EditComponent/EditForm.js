@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react'
+import React from 'react'
 import {
     TabContent,
     TabPane,
@@ -21,42 +21,22 @@ import {
 
 import classnames from 'classnames';
 
-class EditForm extends Component {
-    constructor(){
-        super()
-        this.state = {
-            _id: null,
-            name: '',
-            lat: null,
-            lng: null,
-            notes: '',
-        }
-    }
 
-    handleChange = (e) => {
-        this.setState({
-            [e.currentTarget.name]: e.currentTarget.value,
-        })
-    }
-    handleSubmit = (e) => {
-        e.preventDefault()
-        const formData = this.state
-        console.log(formData)
-        this.props.updateCampsite(formData)
+const EditForm = (props) => {
 
-    }
+    
 
-    render(){
         return (
             <Card body>
                 <CardTitle>Edit Campsite</CardTitle>
-                <Form onSubmit= { this.handleSubmit }>
+                <Form>
                     <FormGroup>
                         <Row>
                             <Input
                                 type= "text"
                                 name= "name"
-                                onChange= {this.handleChange}
+                                value= { props.campsite.name }
+                                onChange= { props.handleFormChange }
                           
                             />
                         </Row>
@@ -64,14 +44,16 @@ class EditForm extends Component {
                             <Input
                                 type= "number"
                                 name= "lat"
-                                onChange= {this.handleChange}
+                                value= { props.campsite.lat } 
+                                onChange={ props.handleFormChange }
                                
                                 
                             />
                             <Input
                                 type= "number"
                                 name= "lng"
-                                onChange= {this.handleChange}
+                                value={ props.campsite.lng }
+                                onChange= { props.handleFormChange }
                               
                             />
                         </Row>
@@ -79,18 +61,19 @@ class EditForm extends Component {
                             <Input
                                 type= "text"
                                 name= "notes"
-                                onChange= { this.handleChange }
+                                value={ props.campsite.notes } 
+                                onChange= { props.handleFormChange }
                          
                             />
                         </Row>
                         <Row>
-                            <input type="submit" value="Submit" />
+                            <Button color="primary" onClick={ props.updateCampsite }>Edit</Button>
                         </Row>
                     </FormGroup>
                 </Form>
             </Card>
         )  
-    }
+    
 }
 
 export default EditForm
