@@ -20,6 +20,7 @@ import {
 } from 'reactstrap';
 
 import classnames from 'classnames';
+import { defaultProps } from 'recompose';
 
 
 const EditForm = (props) => {
@@ -31,6 +32,7 @@ const EditForm = (props) => {
                 <CardTitle>Edit Campsite</CardTitle>
                 <Form>
                     <FormGroup>
+                        <Form onSubmit= { props.updateCampsite }>
                         <Row>
                             <Input
                                 type= "text"
@@ -67,8 +69,9 @@ const EditForm = (props) => {
                             />
                         </Row>
                         <Row>
-                            <Button color="primary" onClick={ props.updateCampsite }>Edit</Button>
+                                <Input type='Submit' />
                         </Row>
+                        </Form>
                     </FormGroup>
                 </Form>
             </Card>

@@ -54,15 +54,16 @@ class PageContainer extends Component {
         };
     }
 
-
+    componentDidMount() {
+        this.getCampsites()
+    }
   
 
     selectCampsite = async (id, e) => {
         this.toggle('2')
         const selectedCampsite = this.state.campsites.find((campsite) => campsite._id === id)
         this.setState({
-            showEdit: true,
-            editMovieId: id,
+            selectedCampsiteId: id,
             selectedCampsite: selectedCampsite
         });
     }
@@ -126,9 +127,10 @@ class PageContainer extends Component {
 
     updateCampsite = async (e) => {
         e.preventDefault();
-
+        console.log(this.state.selectedCampsiteId)
+        console.log(this.state.selectedCampsite)
         try {
-            const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + this.state.editCampsiteId, {
+            const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + this.state.selectedCampsiteId, {
                 method: 'PUT',
                 body: JSON.stringify(this.state.selectedCampsite),
                 headers: {
@@ -140,7 +142,7 @@ class PageContainer extends Component {
 
             const editedCampsiteArray = this.state.campsites.map((campsite) => {
 
-                if (campsite._id === this.state.editCampsiteId) {
+                if (campsite._id === this.state.selectedCampsiteId) {
 
                     campsite.name = parsedResponse.data.name;
                     campsite.lat = parsedResponse.data.lat;
@@ -153,7 +155,7 @@ class PageContainer extends Component {
             this.setState({
                 campsites: editedCampsiteArray,
             });
-
+            console.log(editedCampsiteArray)
 
 
         } catch (err) {
@@ -187,9 +189,7 @@ class PageContainer extends Component {
             });
         }
     }
-    componentDidMount() {
-        this.getCampsites()
-    }
+
     render() {
         return (
             <div>
