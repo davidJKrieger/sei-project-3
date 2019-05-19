@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 // instantiate a class using mongoose.Schema method -- S must be capitalized
 
 const campsiteSchema = new mongoose.Schema({
-    campsite: String,
+    name: String,
     notes: String,
     lat: Number,
     lng: Number

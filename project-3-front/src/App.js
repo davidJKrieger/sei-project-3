@@ -1,26 +1,25 @@
+//App.js is the parent function that returns the entire UI
+
+
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import PageContainer from './PageContainer/PageContainer'
+
+
+
 
 function App() {
   return (
+    //classname App tells React.DOM what to render (top level index.js)
+    //PageContainer is the Container component that will hold stat for most of the app
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <PageContainer />
     </div>
   );
 }
 
 export default App;
+
+//google credentials
+//key=API_KEY
+//AIzaSyAPGeqQzqBRr28APfVVJkoMdXIEEGHw4wg./PageContainer/MapContainer/MyMapComponent

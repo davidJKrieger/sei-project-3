@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Stylish');
+
 .App {
   text-align: center;
 }
@@ -30,4 +32,20 @@
   to {
     transform: rotate(360deg);
   }
+}
+/* 
+header {
+  height: 125px;
+  background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmIHyBdp8dWdEhLcEQkKltHfBikEDqIIABgSM4p4yXKHdPuJ-_")
+} */
+
+#title {
+  margin-top: 10px;
+  padding: 5px;
+  color: black;
+  font-size: 50px;
+}
+ul {
+list-style-type: none
+
 }
