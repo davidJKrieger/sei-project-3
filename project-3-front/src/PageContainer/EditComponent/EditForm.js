@@ -24,22 +24,17 @@ import { defaultProps } from 'recompose';
 
 
 const EditForm = (props) => {
-
-    
-
         return (
-            <Card body>
+            <Card body className="edit-form">
                 <CardTitle>Edit Campsite</CardTitle>
                 <Form onSubmit={props.updateCampsite.bind(null,props.campsite)}>
                     <FormGroup>
-                        
                         <Row>
                             <Input
                                 type= "text"
                                 name= "name"
                                 value= { props.campsite.name }
                                 onChange= { props.handleFormChange }
-                          
                             />
                         </Row>
                         <Row>
@@ -48,15 +43,12 @@ const EditForm = (props) => {
                                 name= "lat"
                                 value= { props.campsite.lat } 
                                 onChange={ props.handleFormChange }
-                               
-                                
                             />
                             <Input
                                 type= "number"
                                 name= "lng"
                                 value={ props.campsite.lng }
                                 onChange= { props.handleFormChange }
-                              
                             />
                         </Row>
                         <Row>
@@ -65,7 +57,6 @@ const EditForm = (props) => {
                                 name= "notes"
                                 value={ props.campsite.notes } 
                                 onChange= { props.handleFormChange }
-                         
                             />
                         </Row>
                         <Row>

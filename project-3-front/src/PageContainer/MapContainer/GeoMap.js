@@ -1,15 +1,11 @@
 import React from "react"
-import { compose, withProps } from "recompose"
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
 import MyMapComponent from "./MyMapComponent"
 
-
-class MyFancyComponent extends React.PureComponent {
+class GeoMap extends React.PureComponent {
     state = {
         isMarkerShown: false,
         selectedCampsite:{}
     }
-
     componentDidMount() {
         this.setState({
             isMarkerShown: true,
@@ -17,20 +13,16 @@ class MyFancyComponent extends React.PureComponent {
 
         })
     }
-
     delayedShowMarker = () => {
         setTimeout(() => {
             this.setState({ isMarkerShown: true })
         }, 3000)
     }
-
     handleMarkerClick = () => {
         this.setState({
-             isMarkerShown: true,
-     //       selectedCampsite: this.props.selectedCampsite
-            })
+            isMarkerShown: true,
+        })
     }
-
     render() {
         return (
             <MyMapComponent
@@ -44,4 +36,4 @@ class MyFancyComponent extends React.PureComponent {
     }
 }
 
-export default MyFancyComponent
+export default GeoMap

@@ -1,32 +1,16 @@
 import React, { Component } from 'react';
 
-//Starting with "/" returns to the root directory and starts there
-//Starting with "../" moves one directory backwards and starts there
-//Starting with "../../" moves two directories backwards and starts there(and so on...)
-//To move forward, just start with the first subdirectory and keep moving forward
 import {    TabContent, 
             TabPane, 
             Nav, 
             NavItem, 
             NavLink, 
-            Card, 
-            Button, 
-            CardTitle, 
-            CardText, 
             Row, 
             Col,
-            Form, 
-            FormGroup, 
-            Label, 
-            Input, 
-            FormText  
         } from 'reactstrap';
-import Footer from './Footer/Footer'
 
 import Header from './Header/Header'
-import MapContainer from './MapContainer/MyMapComponent'
-import MyFancyComponent from './MapContainer/Marker';
-
+import GeoMap from './MapContainer/GeoMap';
 import classnames from 'classnames';
 import ListItem from './ListComponent/ListItem'
 import AddForm from './AddComponent/AddForm'
@@ -54,11 +38,9 @@ class PageContainer extends Component {
 
         };
     }
-
     componentDidMount() {
         this.getCampsites()
     }
-
     selectCampsite = (id, e) => {
         //bindind arguments come before the event object (e), when called with bind
         const foundCampsite= this.state.campsites.find((campsite) => campsite._id == id)
@@ -72,18 +54,8 @@ class PageContainer extends Component {
                 notes: foundCampsite.notes,
             }
         });
-        console.log(foundCampsite + '<- retrieved')
-        console.log(this.state.selectedCampsite+"<-- this is state.selected")
-        console.log(this.state.selectedCampsiteId + "<-- this is state.selected id")
-        console.log(this.selectCampsite._id +"<-this is selected.id ")
         this.toggle('2')
     }
-
-
-
-
-
-
     handleNewCampsite = async (data) => {
         try {
             const addedCampsite = await fetch('http://localhost:9000/api/v1/campsites', {
@@ -94,18 +66,15 @@ class PageContainer extends Component {
                     'Content-Type': 'application/json'
                 }
             });
-
             const parsedResponse = await addedCampsite.json();
             console.log(parsedResponse)
             this.setState({ 
                 campsites: [...this.state.campsites, parsedResponse.data],
                 selectedCampsite: parsedResponse.data
             })
-
         } catch (err) {
             console.log(err)
         }
-        console.log(this.state.campsites)
     }
     getCampsites = async () => {
         try {
@@ -117,7 +86,6 @@ class PageContainer extends Component {
                 // for http errors, Fetch doesn't reject the promise on 404 or 500
                 throw Error(response.statusText);
             }
-
             const responseParsed = await response.json();
             // after setState render is automatically called
             if(response != null) {
@@ -131,7 +99,6 @@ class PageContainer extends Component {
         }
     } 
     handleFormChange = (e) => {
-
         this.setState({
             selectedCampsite: {
                 ...this.state.selectedCampsite,
@@ -139,12 +106,8 @@ class PageContainer extends Component {
             }
         })
     }
-
-
     updateCampsite = async (campsite, e) => {
         e.preventDefault();
-        console.log(campsite) 
-        console.log("campsite to edit")
         try {
             const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + this.state.selectedCampsiteId, {
                 method: 'PUT',
@@ -153,38 +116,24 @@ class PageContainer extends Component {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log(editResponse)
-            console.log("<== edit response")
             const parsedResponse = await editResponse.json();
-
             const editedCampsiteArray = this.state.campsites.map((campsite) => {
-
                 if (campsite._id === this.state.selectedCampsiteId) {
-
                     campsite.name = parsedResponse.data.name;
-                    console.log(parsedResponse.data.id)
-                    console.log(parsedResponse.data)
                     campsite.lat = parsedResponse.data.lat;
                     campsite.lng = parsedResponse.data.lng;
                     campsite.notes = parsedResponse.data.notes;
                 }
                 return campsite
             });
-
             this.setState({
                 campsites: editedCampsiteArray,
             });
-            console.log(parsedResponse.data + "<---parsed response")
-            console.log(editedCampsiteArray + "<-- edited array")
-            console.log(editedCampsiteArray)
-
-
+            this.toggle('1')
         } catch (err) {
             console.log(err);
         }
     }
-    
-
     deleteCampsite = async (id, e) => {
         e.preventDefault();
         try {
@@ -210,30 +159,21 @@ class PageContainer extends Component {
             });
         }
     }
-
     render() {
         return (
             <div>
                 <Header />
-<MyFancyComponent 
-selectedCampsite = { this.state.selectedCampsite }
-campsites = { this.state.campsites }
-/>
+                <GeoMap
+                    selectedCampsite = { this.state.selectedCampsite }
+                    campsites = { this.state.campsites }
+                />
                 <Nav tabs>
                     <NavItem>
                         <NavLink
                             className={classnames({ active: this.state.activeTab === '1' })}
                             onClick={() => { this.toggle('1'); }}
                         >
-                            My Campsites
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink
-                            className={classnames({ active: this.state.activeTab === '2' })}
-                            onClick={() => { this.toggle('2'); }}
-                        >
-                            {this.state.selectedCampsite.name}
+                            My Dispersed Campsites
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -241,34 +181,33 @@ campsites = { this.state.campsites }
                     <TabPane tabId="1">
                         <Row>
                             <Col sm="6">
-        <AddForm 
-            campsite = { this.state.campsites }
-            handleNewCampsite = { this.handleNewCampsite }
-        />
+                                <AddForm 
+                                    campsite = { this.state.campsites }
+                                    handleNewCampsite = { this.handleNewCampsite }
+                                />
                             </Col>
                             <Col sm="6">
                                 <h2>List of Campsites</h2>
-        <ListItem 
-            activeTab = {this.state.activeTab}
-            toggleTwo = {this.toggleTwo}
-            selectCampsite = {this.selectCampsite}
-            campsites = { this.state.campsites } 
-            deleteCampsite={this.deleteCampsite} 
-        />
-       
+                                <ListItem 
+                                    activeTab = {this.state.activeTab}
+                                    toggleTwo = {this.toggleTwo}
+                                    selectCampsite = {this.selectCampsite}
+                                    campsites = { this.state.campsites } 
+                                    deleteCampsite={this.deleteCampsite} 
+                                />
                             </Col>
                         </Row>
                     </TabPane>
                     <TabPane tabId="2">
                         <Row>
                             <Col sm="6">
-        <EditForm 
-            campsite = { this.state.selectedCampsite }
-            handleChange = { this.handleChange }
-            updateCampsite = { this.updateCampsite }
-            handleFormChange ={ this.handleFormChange }
-            selectCampsiteId = {this.state.selectedCampsiteId}
-        />
+                            <EditForm 
+                                campsite = { this.state.selectedCampsite }
+                                handleChange = { this.handleChange }
+                                updateCampsite = { this.updateCampsite }
+                                handleFormChange ={ this.handleFormChange }
+                                selectCampsiteId = {this.state.selectedCampsiteId}
+                            />
                             </Col>
                             <Col sm="6">
                                 <h4>{this.state.selectedCampsite.name}</h4>
