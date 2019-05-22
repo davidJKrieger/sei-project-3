@@ -20,6 +20,4 @@ function App() {
 
 export default App;
 
-//google credentials
-//key=API_KEY
-//AIzaSyAPGeqQzqBRr28APfVVJkoMdXIEEGHw4wg./PageContainer/MapContainer/MyMapComponent
+ 

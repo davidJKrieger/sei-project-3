@@ -115,7 +115,7 @@ router.get('/:id', async (req, res) => {
             status: 200,
             data: showCampsite
         })
-
+        console.log('response happening?')
     }catch(err) {
         console.log(err);
         res.send(err);
@@ -124,18 +124,17 @@ router.get('/:id', async (req, res) => {
 
 //UPDATE
 router.put('/:id', async (req, res) => {
-    try{
-        const updatedCampsite = await Camp.findByIdAndUpdate(req.params.id)
+
+    try {
+        const updatedCamp = await Camp.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.json({
             status: 200,
-            data: updatedCampsite
-        })
-
-    }catch(err){
-        console.log(err)
+            data: updatedCamp
+        });
+    } catch (err) {
         res.send(err)
     }
-})
+});
 
 
 

@@ -45,6 +45,7 @@ class PageContainer extends Component {
             notes: '',
             selectedCampsiteId: null,
             selectedCampsite: {
+                id: null,
                 name: '',
                 lat: 0,
                 lng: 0,
@@ -57,16 +58,31 @@ class PageContainer extends Component {
     componentDidMount() {
         this.getCampsites()
     }
-  
 
-    selectCampsite = async (id, e) => {
-        this.toggle('2')
-        const selectedCampsite = this.state.campsites.find((campsite) => campsite._id === id)
+    selectCampsite = (id, e) => {
+        //bindind arguments come before the event object (e), when called with bind
+        const foundCampsite= this.state.campsites.find((campsite) => campsite._id == id)
+        console.log(foundCampsite, '<--selected before setsate')
         this.setState({
             selectedCampsiteId: id,
-            selectedCampsite: selectedCampsite
+            selectedCampsite: {
+                name: foundCampsite.name,
+                lat: foundCampsite.lat,
+                lng: foundCampsite.lng,
+                notes: foundCampsite.notes,
+            }
         });
+        console.log(foundCampsite + '<- retrieved')
+        console.log(this.state.selectedCampsite+"<-- this is state.selected")
+        console.log(this.state.selectedCampsiteId + "<-- this is state.selected id")
+        console.log(this.selectCampsite._id +"<-this is selected.id ")
+        this.toggle('2')
     }
+
+
+
+
+
 
     handleNewCampsite = async (data) => {
         try {
@@ -125,19 +141,20 @@ class PageContainer extends Component {
     }
 
 
-    updateCampsite = async (e) => {
+    updateCampsite = async (campsite, e) => {
         e.preventDefault();
-        console.log(this.state.selectedCampsiteId)
-        console.log(this.state.selectedCampsite)
+        console.log(campsite) 
+        console.log("campsite to edit")
         try {
             const editResponse = await fetch('http://localhost:9000/api/v1/campsites/' + this.state.selectedCampsiteId, {
                 method: 'PUT',
-                body: JSON.stringify(this.state.selectedCampsite),
+                body: JSON.stringify(campsite),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-
+            console.log(editResponse)
+            console.log("<== edit response")
             const parsedResponse = await editResponse.json();
 
             const editedCampsiteArray = this.state.campsites.map((campsite) => {
@@ -145,6 +162,8 @@ class PageContainer extends Component {
                 if (campsite._id === this.state.selectedCampsiteId) {
 
                     campsite.name = parsedResponse.data.name;
+                    console.log(parsedResponse.data.id)
+                    console.log(parsedResponse.data)
                     campsite.lat = parsedResponse.data.lat;
                     campsite.lng = parsedResponse.data.lng;
                     campsite.notes = parsedResponse.data.notes;
@@ -155,6 +174,8 @@ class PageContainer extends Component {
             this.setState({
                 campsites: editedCampsiteArray,
             });
+            console.log(parsedResponse.data + "<---parsed response")
+            console.log(editedCampsiteArray + "<-- edited array")
             console.log(editedCampsiteArray)
 
 
@@ -246,6 +267,7 @@ campsites = { this.state.campsites }
             handleChange = { this.handleChange }
             updateCampsite = { this.updateCampsite }
             handleFormChange ={ this.handleFormChange }
+            selectCampsiteId = {this.state.selectedCampsiteId}
         />
                             </Col>
                             <Col sm="6">

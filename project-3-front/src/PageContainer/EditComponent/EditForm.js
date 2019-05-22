@@ -30,9 +30,9 @@ const EditForm = (props) => {
         return (
             <Card body>
                 <CardTitle>Edit Campsite</CardTitle>
-                <Form>
+                <Form onSubmit={props.updateCampsite.bind(null,props.campsite)}>
                     <FormGroup>
-                        <Form onSubmit= { props.updateCampsite }>
+                        
                         <Row>
                             <Input
                                 type= "text"
@@ -71,7 +71,6 @@ const EditForm = (props) => {
                         <Row>
                                 <Input type='Submit' />
                         </Row>
-                        </Form>
                     </FormGroup>
                 </Form>
             </Card>
