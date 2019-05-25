@@ -29,7 +29,10 @@ class App extends Component {
 
       <div className="App">
         {this.state.logged ? <PageContainer username = { this.state.username } /> :
-        <Login login = { this.login } />}
+        <div className="background-div">
+        <Login login = { this.login } />
+        </div>
+        }
       </div>
     );
   }

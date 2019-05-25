@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import {
     Card,
+    Col,
     Button,
     CardTitle,
     Row,
@@ -42,46 +43,49 @@ class AddForm extends Component {
 
     render() {
         return (
-            <Card body>
-                <CardTitle>Add a Campsite</CardTitle>
-                <Form onSubmit={this.handleSubmit}>
-                    <FormGroup>
-                        <Row>
-                            <Input
-                                type="text"
-                                name="name"
-                                onChange={this.handleChange}
-                                placeholder='Name your Campsite'
-                            />
-                        </Row>
-                        <Row>
-                            <Input
-                                type="number"
-                                name="lat"
-                                onChange={this.handleChange}
-                                placeholder='Enter the latitude coordinate'
-                            />
-                            <Input
-                                type="number"
-                                name="lng"
-                                onChange={this.handleChange}
-                                placeholder='Enter the longitude coordinate'
-                            />
-                        </Row>
-                        <Row>
-                            <Input
-                                type="text"
-                                name="notes"
-                                onChange={this.handleChange}
-                                placeholder='Describe the site and leave some notes here'
-                            />
-                        </Row>
-                        <Row>
-                            <input type="submit" value="Submit" />
-                        </Row>
-                    </FormGroup>
-                </Form>
-            </Card>
+            <div>
+                <Col sm="6">
+                    <h3>Add a Campsite</h3>
+                    <Form onSubmit={this.handleSubmit}>
+                        <FormGroup>
+                            <Row>
+                                <Input
+                                    type="text"
+                                    name="name"
+                                    onChange={this.handleChange}
+                                    placeholder='Name your Campsite'
+                                />
+                            </Row>
+                            <Row>
+                                <Input
+                                    type="number"
+                                    name="lat"
+                                    onChange={this.handleChange}
+                                    placeholder='Enter the latitude coordinate'
+                                />
+                                <Input
+                                    type="number"
+                                    name="lng"
+                                    onChange={this.handleChange}
+                                    placeholder='Enter the longitude coordinate'
+                                />
+                            </Row>
+                            <Row>
+                                <Input
+                                    type="text"
+                                    name="notes"
+                                    onChange={this.handleChange}
+                                    placeholder='Describe the site and leave some notes here'
+                                />
+                            </Row>
+                            <Row>
+                                <input type="submit" value="Submit" />
+                            </Row>
+                        </FormGroup>
+                    </Form>
+                </Col>
+           </div>
+        
         )
     }
 }

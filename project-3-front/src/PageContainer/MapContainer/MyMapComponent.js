@@ -19,7 +19,7 @@ const MyMapComponent = compose(
     withGoogleMap
 )((props) =>
     <GoogleMap
-        defaultZoom={2}
+        defaultZoom={8}
         defaultCenter={{ lat: 39.7392358, lng: -104.990251 }}
     >
         {props.campsites.map(marker => (

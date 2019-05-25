@@ -173,21 +173,21 @@ class PageContainer extends Component {
                             className={classnames({ active: this.state.activeTab === '1' })}
                             onClick={() => { this.toggle('1'); }}
                         >
-                            My Dispersed Campsites
+                            <h3>My Campsites</h3>
                         </NavLink>
                     </NavItem>
                 </Nav>
                 <TabContent activeTab={ this.state.activeTab }>
                     <TabPane tabId="1">
                         <Row>
-                            <Col sm="6">
+                            <Col sm="2"></Col>
+                            <Col sm="4">
                                 <AddForm 
                                     campsite = { this.state.campsites }
                                     handleNewCampsite = { this.handleNewCampsite }
                                 />
                             </Col>
                             <Col sm="6">
-                                <h2>List of Campsites</h2>
                                 <ListItem 
                                     activeTab = {this.state.activeTab}
                                     toggleTwo = {this.toggleTwo}
