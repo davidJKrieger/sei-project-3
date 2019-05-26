@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import PageContainer from './PageContainer/PageContainer'
 import Login from './LoginComp'
-
-
-
+import Footer from './Footer'
 
 class App extends Component {
   constructor(){
@@ -28,7 +26,11 @@ class App extends Component {
       //PageContainer is the Container component that will hold stat for most of the app
 
       <div className="App">
-        {this.state.logged ? <PageContainer username = { this.state.username } /> :
+        {this.state.logged ? 
+        <div>
+        <PageContainer username = { this.state.username } />
+        </div>
+        :
         <div className="background-div">
         <Login login = { this.login } />
         </div>

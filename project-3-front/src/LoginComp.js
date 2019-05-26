@@ -32,7 +32,6 @@ class Login extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.login(this.state.username);
-        this.getWeather()
     }
 
     handleChange = (e) => {
@@ -41,77 +40,46 @@ class Login extends Component {
         })
     }
 
-    getWeather = async (e) => {
-        const location = this.state.location
-        const apiKey = "b3441bfeb41ebdad172344c6297c52a2"
-        const geoLocaKey = '58a864f15f5a4a1696cc6ecb7e1918d5'
-        const geoApi = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=Rua+Cafel%C3%A2ndia%2C+${city}%C3%ADba%2C+${country}&key=${geoApiKey}&pretty=1`)
-        const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}`);
-        const response = await api_call.json();
-        console.log(response);
-    }
-
-
-
     render(){
         return(
-            <div className ="Login-component">
-                <Row>   
-                    <Col>
-                        <div>
-                            <h1 id="title">Dispersed</h1>
-                            <p>Keep track of your favorite dispersed campsites</p>
-                            <p>Stash the location in a database so you can remember exactly where they are and what you love about them.</p>
+            <div class="container">
+                <div>
+                    <h1 id="title">Dispersed</h1>
+                </div>
+                <div class="row">
+                    <div class="Absolute-Center is-Responsive">
+                        <div id="logo-container"></div>
+                        <div class="col-sm-12 col-md-10 col-md-offset-1">
+                            <form onSubmit={this.handleSubmit} id="loginForm">
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input 
+                                        class="form-control" 
+                                        type="text" 
+                                        name='username' 
+                                        placeholder="username" 
+                                    />
+                                </div>
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                    <input 
+                                        class="form-control" 
+                                        type="password" 
+                                        name='password' 
+                                        placeholder="password" 
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <Button type="Submit" class="btn btn-def btn-block">Login</Button>
+                                </div>   
+                            </form>        
                         </div>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col sm="4">
-                    </Col>
-                    <Col>
-                        <Card>
-                            <CardBody>
-                                <CardTitle>Log In Here</CardTitle>
-                                <CardSubtitle>Enter username and password</CardSubtitle>
-                                <Form onSubmit={this.handleSubmit}>
-                                    <Input
-                                        type='text'
-                                        name='username'
-                                        placeholder='username'
-                                    />
-                                    <Input
-                                        type='password'
-                                        name='password'
-                                        placeholder='password'
-                                    />
-                                    <CardTitle>Where do you like to camp?</CardTitle>                        
-                                    <Input 
-                                        type="text" 
-                                        name="city" 
-                                        placeholder="City"
-                                    />
-                                    <Input 
-                                        type="text" 
-                                        name="country" 
-                                        placeholder="Country" 
-                                    />
-                                    <CardSubtitle>Click submit to see your campsites</CardSubtitle>
-                                    <Input
-                                        type='submit'
-                                        value='Submit'
-                                    />
-                                </Form>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                    <Col sm="4">
-                    </Col>
-                </Row>
+                    </div>
+                </div>
             </div>
-
-
-        )
+        ) 
     }
 }
+
 
 export default Login;

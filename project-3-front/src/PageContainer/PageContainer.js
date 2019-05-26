@@ -162,7 +162,6 @@ class PageContainer extends Component {
     render() {
         return (
             <div>
-                <Header />
                 <GeoMap
                     selectedCampsite = { this.state.selectedCampsite }
                     campsites = { this.state.campsites }
@@ -173,7 +172,7 @@ class PageContainer extends Component {
                             className={classnames({ active: this.state.activeTab === '1' })}
                             onClick={() => { this.toggle('1'); }}
                         >
-                            <h3>My Campsites</h3>
+                            <img src='./public/tent.gif'></img>
                         </NavLink>
                     </NavItem>
                 </Nav>
