@@ -27,6 +27,7 @@ class AddForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault()
         this.props.handleNewCampsite(this.state)
+        e.target.reset();
         this.setState({
             name: '',
             lat: null,
@@ -34,13 +35,11 @@ class AddForm extends Component {
             notes: ''
         })
     }
-
     handleChange = (e) => {
         this.setState({
             [e.currentTarget.name]: e.currentTarget.value,
         })
     }
-
     render() {
         return (
             <div>
@@ -72,10 +71,10 @@ class AddForm extends Component {
                             </Row>
                             <Row>
                                 <Input
-                                    type="text"
+                                    type="textarea"
                                     name="notes"
                                     onChange={this.handleChange}
-                                    placeholder='Describe the site and leave some notes here'
+                                    placeholder='Leave some notes here'
                                 />
                             </Row>
                             <Row>

@@ -33,22 +33,19 @@ class Login extends Component {
         e.preventDefault();
         this.props.login(this.state.username);
     }
-
     handleChange = (e) => {
         this.setState({
             [e.currentTarget.name]: e.currentTarget.value
         })
     }
-
     render(){
         return(
             <div class="container">
-                <div>
-                    <h1 id="title">Dispersed</h1>
-                </div>
-                <div class="row">
-                    <div class="Absolute-Center is-Responsive">
-                        <div id="logo-container"></div>
+            <div>
+                <h1 id="title">Dispersed</h1>
+            </div>
+            <div class="row">
+                <div class="Absolute-Center is-Responsive">
                         <div class="col-sm-12 col-md-10 col-md-offset-1">
                             <form onSubmit={this.handleSubmit} id="loginForm">
                                 <div class="form-group input-group">

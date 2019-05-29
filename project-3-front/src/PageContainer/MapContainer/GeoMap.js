@@ -4,7 +4,7 @@ import MyMapComponent from "./MyMapComponent"
 class GeoMap extends React.PureComponent {
     state = {
         isMarkerShown: false,
-        selectedCampsite:{}
+        selectedCampsite:{},
     }
     componentDidMount() {
         this.setState({

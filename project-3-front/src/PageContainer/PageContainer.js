@@ -1,20 +1,10 @@
 import React, { Component } from 'react';
-
-import {    TabContent, 
-            TabPane, 
-            Nav, 
-            NavItem, 
-            NavLink, 
-            Row, 
-            Col,
-        } from 'reactstrap';
-
-import Header from './Header/Header'
+import { TabContent,TabPane,Nav,NavItem,NavLink,Row,Col,} from 'reactstrap';
 import GeoMap from './MapContainer/GeoMap';
 import classnames from 'classnames';
-import ListItem from './ListComponent/ListItem'
-import AddForm from './AddComponent/AddForm'
-import EditForm from './EditComponent/EditForm'
+import ListItem from './ListComponent/ListItem';
+import AddForm from './AddComponent/AddForm';
+import EditForm from './EditComponent/EditForm';
 
 class PageContainer extends Component {
     constructor() {
@@ -35,12 +25,11 @@ class PageContainer extends Component {
                 lng: 0,
                 notes:''
             }
-
         };
-    }
+    };
     componentDidMount() {
         this.getCampsites()
-    }
+    };
     selectCampsite = (id, e) => {
         //bindind arguments come before the event object (e), when called with bind
         const foundCampsite= this.state.campsites.find((campsite) => campsite._id == id)
@@ -55,7 +44,7 @@ class PageContainer extends Component {
             }
         });
         this.toggle('2')
-    }
+    };
     handleNewCampsite = async (data) => {
         try {
             const addedCampsite = await fetch('http://localhost:9000/api/v1/campsites', {
@@ -75,7 +64,7 @@ class PageContainer extends Component {
         } catch (err) {
             console.log(err)
         }
-    }
+    };
     getCampsites = async () => {
         try {
             const response = await fetch('http://localhost:9000/api/v1/campsites', {
@@ -97,7 +86,7 @@ class PageContainer extends Component {
         } catch (err) {
             console.log(err);
         }
-    } 
+    };
     handleFormChange = (e) => {
         this.setState({
             selectedCampsite: {
@@ -105,7 +94,7 @@ class PageContainer extends Component {
                 [e.target.name]: e.target.value
             }
         })
-    }
+    };
     updateCampsite = async (campsite, e) => {
         e.preventDefault();
         try {
@@ -133,7 +122,7 @@ class PageContainer extends Component {
         } catch (err) {
             console.log(err);
         }
-    }
+    };
     deleteCampsite = async (id, e) => {
         e.preventDefault();
         try {
@@ -150,7 +139,7 @@ class PageContainer extends Component {
         } catch (err) {
             console.log(err, ' error')
         }
-    }
+    };
     toggle(tab) {
         if (this.state.activeTab !== tab) {
             this.setState({
@@ -158,7 +147,7 @@ class PageContainer extends Component {
 
             });
         }
-    }
+    };
     render() {
         return (
             <div>
@@ -171,22 +160,25 @@ class PageContainer extends Component {
                         <NavLink
                             className={classnames({ active: this.state.activeTab === '1' })}
                             onClick={() => { this.toggle('1'); }}
-                        >
-                            <img src='./public/tent.gif'></img>
+                        >   
+                            <img src="tent.gif" alt="tent" height="42" width="42"/>
                         </NavLink>
                     </NavItem>
                 </Nav>
+                <div className="subtitle">
+                    <p>Keep track of your favorite dispersed campsites</p>
+                </div>
                 <TabContent activeTab={ this.state.activeTab }>
                     <TabPane tabId="1">
                         <Row>
-                            <Col sm="2"></Col>
-                            <Col sm="4">
+                            <Col sm="1"></Col>
+                            <Col sm="6">
                                 <AddForm 
                                     campsite = { this.state.campsites }
                                     handleNewCampsite = { this.handleNewCampsite }
                                 />
                             </Col>
-                            <Col sm="6">
+                            <Col sm="5">
                                 <ListItem 
                                     activeTab = {this.state.activeTab}
                                     toggleTwo = {this.toggleTwo}
@@ -199,6 +191,7 @@ class PageContainer extends Component {
                     </TabPane>
                     <TabPane tabId="2">
                         <Row>
+                            <Col sm="1"></Col>
                             <Col sm="6">
                             <EditForm 
                                 campsite = { this.state.selectedCampsite }
@@ -208,7 +201,7 @@ class PageContainer extends Component {
                                 selectCampsiteId = {this.state.selectedCampsiteId}
                             />
                             </Col>
-                            <Col sm="6">
+                            <Col sm="5">
                                 <h4>{this.state.selectedCampsite.name}</h4>
                                 <p> {this.state.selectedCampsite.notes}</p>
                             </Col>

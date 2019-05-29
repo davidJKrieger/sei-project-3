@@ -1,9 +1,7 @@
-//App.js is the parent function that returns the entire UI
 import React, { Component } from 'react';
 import './App.css';
 import PageContainer from './PageContainer/PageContainer'
 import Login from './LoginComp'
-import Footer from './Footer'
 
 class App extends Component {
   constructor(){
@@ -22,9 +20,6 @@ class App extends Component {
   }
   render() {
     return (
-      //classname App tells React.DOM what to render (top level index.js)
-      //PageContainer is the Container component that will hold stat for most of the app
-
       <div className="App">
         {this.state.logged ? 
         <div>
