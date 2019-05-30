@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 //require express
 //express is a framework that makes node.js easier to work with
 const express = require('express');
@@ -40,6 +42,6 @@ app.use('/api/v1/campsites',campsiteController)
 
 //call the express method that will "listen" to (or await requests from) the established environment (.env) or port 9000
 //callback function console logs connection
-app.listen(process.env.PORT || 9000, () => {
-    console.log('listening on port 9000');
-});
+app.listen(process.env.PORT, () => {
+    console.log('listening on port 3000');
+})
